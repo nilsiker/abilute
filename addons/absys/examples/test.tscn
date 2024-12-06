@@ -1,0 +1,136 @@
+[gd_scene load_steps=16 format=3 uid="uid://c75i7pwddvu28"]
+
+[ext_resource type="Script" path="res://addons/absys/scripts/Attribute.gd" id="1_k0fgv"]
+[ext_resource type="Script" path="res://addons/absys/scripts/AbilitySystem.gd" id="1_mlc6g"]
+[ext_resource type="Script" path="res://addons/absys/scripts/AttributeResource.gd" id="2_704my"]
+[ext_resource type="Script" path="res://addons/absys/scripts/Effect.gd" id="3_xh8wv"]
+[ext_resource type="Script" path="res://addons/absys/scripts/Modifier.gd" id="4_2jgvu"]
+[ext_resource type="Script" path="res://addons/absys/scripts/EffectResource.gd" id="5_a5k3r"]
+[ext_resource type="Script" path="res://addons/absys/examples/DebugLabel.gd" id="5_fl5mk"]
+[ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/absys/examples/debug_effect_instant_damage.tres" id="5_omtmh"]
+[ext_resource type="Script" path="res://addons/absys/examples/DebugInputs.gd" id="8_o0pmd"]
+[ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/absys/examples/debug_effect_fatigue.tres" id="10_uaglt"]
+[ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/absys/examples/debug_effect_heal.tres" id="11_yqkih"]
+
+[sub_resource type="Resource" id="Resource_8jvei"]
+script = ExtResource("2_704my")
+attribute = 0
+value = 100.0
+
+[sub_resource type="Resource" id="Resource_ekd0q"]
+script = ExtResource("2_704my")
+attribute = 1
+value = 100.0
+
+[sub_resource type="Resource" id="Resource_itva6"]
+script = ExtResource("4_2jgvu")
+attribute = 1
+operation = 0
+magnitude = 1.0
+
+[sub_resource type="Resource" id="Resource_yrwuo"]
+script = ExtResource("5_a5k3r")
+kind = 2
+modifiers = Array[ExtResource("4_2jgvu")]([SubResource("Resource_itva6")])
+duration = 0.0
+period = 0.25
+
+[node name="Test" type="Node2D"]
+
+[node name="Player" type="Node" parent="."]
+
+[node name="AbilitySystem" type="Node" parent="Player"]
+script = ExtResource("1_mlc6g")
+
+[node name="Health" type="Node" parent="Player/AbilitySystem"]
+script = ExtResource("1_k0fgv")
+attribute = SubResource("Resource_8jvei")
+
+[node name="Stamina" type="Node" parent="Player/AbilitySystem"]
+script = ExtResource("1_k0fgv")
+attribute = SubResource("Resource_ekd0q")
+
+[node name="InfiniteRestEffect" type="Node" parent="Player/AbilitySystem"]
+script = ExtResource("3_xh8wv")
+effect = SubResource("Resource_yrwuo")
+
+[node name="DebugHUD" type="CanvasLayer" parent="Player"]
+
+[node name="DebugAbilitySystem" type="VBoxContainer" parent="Player/DebugHUD"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Health" type="HBoxContainer" parent="Player/DebugHUD/DebugAbilitySystem"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="Player/DebugHUD/DebugAbilitySystem/Health"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Health: "
+
+[node name="Value" type="Label" parent="Player/DebugHUD/DebugAbilitySystem/Health"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "100"
+script = ExtResource("5_fl5mk")
+
+[node name="Stamina" type="HBoxContainer" parent="Player/DebugHUD/DebugAbilitySystem"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Name" type="Label" parent="Player/DebugHUD/DebugAbilitySystem/Stamina"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Stamina: "
+
+[node name="Value" type="Label" parent="Player/DebugHUD/DebugAbilitySystem/Stamina"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "100"
+script = ExtResource("5_fl5mk")
+
+[node name="DebugInputs" type="VBoxContainer" parent="Player/DebugHUD" node_paths=PackedStringArray("target")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -576.0
+offset_top = -104.0
+offset_right = 576.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+size_flags_vertical = 8
+script = ExtResource("8_o0pmd")
+target = NodePath("../../AbilitySystem")
+damage_effect = ExtResource("5_omtmh")
+stamina_effect = ExtResource("10_uaglt")
+heal_effect = ExtResource("11_yqkih")
+
+[node name="DamageInstant" type="Label" parent="Player/DebugHUD/DebugInputs"]
+layout_mode = 2
+text = "F to inflict damage"
+horizontal_alignment = 1
+
+[node name="InstantFatigue" type="Label" parent="Player/DebugHUD/DebugInputs"]
+layout_mode = 2
+text = "G to cause fatigue"
+horizontal_alignment = 1
+
+[node name="HOT" type="Label" parent="Player/DebugHUD/DebugInputs"]
+layout_mode = 2
+text = "H to apply a 3 second heal"
+horizontal_alignment = 1
+
+[node name="ToggleRegen" type="Label" parent="Player/DebugHUD/DebugInputs"]
+layout_mode = 2
+text = "T to block stamina regen"
+horizontal_alignment = 1
+
+[connection signal="value_changed" from="Player/AbilitySystem/Health" to="Player/DebugHUD/DebugAbilitySystem/Health/Value" method="_on_value_changed"]
+[connection signal="value_changed" from="Player/AbilitySystem/Stamina" to="Player/DebugHUD/DebugAbilitySystem/Stamina/Value" method="_on_value_changed"]

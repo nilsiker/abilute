@@ -1,18 +1,11 @@
 class_name Attribute extends Node
 
-enum Kind {
-	Health,
-	Stamina,
-	Mana
-}
-
-static func str(kind: Kind) -> String:
-	return Attribute.Kind.keys()[kind]
+static func str(kind: AttributeResource.Kind) -> String:
+	return AttributeResource.Kind.keys()[kind]
 
 signal value_changed(float)
 signal base_value_changed(float)
 
-@export var kind: Kind
 @export var attribute: AttributeResource
 
 func add(val: float):

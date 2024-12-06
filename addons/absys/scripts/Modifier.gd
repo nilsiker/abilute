@@ -1,11 +1,12 @@
+@tool
 class_name Modifier extends Resource
 
-enum Kind {
-    Add,
-    Multiply,
-    Override
+enum Operation {
+	Add,
+	Multiply,
+	Override
 }
 
-@export var attribute: Attribute.Kind
-@export var kind: Kind
+@export var attribute: AttributeResource.Kind
+@export var operation: Operation
 @export var magnitude: float

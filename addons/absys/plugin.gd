@@ -1,12 +1,8 @@
 @tool
 extends EditorPlugin
 
-
-func _enter_tree() -> void:
-	# Initialization of the plugin goes here.
+func _enable_plugin() -> void:
 	pass
 
-
-func _exit_tree() -> void:
-	# Clean-up of the plugin goes here.
+func _disable_plugin() -> void:
 	pass

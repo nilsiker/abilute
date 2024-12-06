@@ -1,5 +1,11 @@
 @tool
 class_name AttributeResource extends Resource
 
-@export var base_value: float
-@export var value: float
+enum Kind {
+	Health,
+	Stamina,
+	Mana
+}
+
+@export var attribute: Kind
+@export var value: float = 100	
