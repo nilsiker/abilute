@@ -11,3 +11,39 @@
 * **Attributes** representing meaningful resources for game entities.
 * **Effects** that modify attributes.
 * **Abilities** that can be granted and activated by game entities, applying effects to any attribute-haver.
+
+## Design overview
+
+```mermaid
+graph TB
+chr([Character])
+acs([**AbilitySystem**])
+at([Attribute])
+atr[AttributeResource]
+er[EffectResource]
+e([Effect])
+abr[AbilityResource]
+ab([Ability])
+
+chr--has-->acs
+
+acs--"has multiple"-->at
+
+acs--"activates"-->ab
+
+atr--"defines"-->at
+er--"defines"-->e
+abr--"defines"-->ab
+
+ab--"might consume"-->at
+ab--"causes"-->e
+
+e--"modifies"-->at
+
+```
+
+```mermaid
+erDiagram
+AbilitySystem 1--1 Acs: has
+
+```
