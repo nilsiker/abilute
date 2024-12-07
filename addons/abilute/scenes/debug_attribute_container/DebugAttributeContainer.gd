@@ -1,12 +1,29 @@
 @tool extends HBoxContainer
 
-@onready var _label: Label = $Label
-@onready var _value: Label = $Value
+var _label: Label
+var _value: Label
 
-@export var label: String:
-	get: return _label.text if _label else ""
-	set(text): if _label: _label.text = text
+@export var _attribute: Attribute
 
-@export var value: String:
-	get: return _value.text if _value else ""
-	set(text): if _label: _value.text = text
+func _init(attribute: Attribute = null):
+	if not attribute: return
+	_attribute = attribute
+	var label = Label.new()
+	label.text = attribute.name
+	var value = Label.new()
+	value.text = str(attribute.attribute.value)
+
+	_label = label
+	_value = value
+	
+	add_child(label)
+	add_child(value)
+
+	_attribute.value_changed.connect(_on_attribute_value_changed)
+
+func _exit_tree() -> void:
+	if not _attribute: return
+	_attribute.value_changed.disconnect(_on_attribute_value_changed)
+
+func _on_attribute_value_changed(value: float):
+	_value.text = str(value)

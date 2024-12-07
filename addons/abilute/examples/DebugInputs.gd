@@ -16,3 +16,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		target.add_effect(heal_effect)
 	elif event.is_action_pressed("debug_stamina_regen_block"):
 		target.add_effect(stamina_regen_block_effect)
+
+
+
+func _on_abilute_debug_hud_ability_system_changed(ability_system:AbilitySystem) -> void:
+	print("setting new target ", ability_system)
+	target = ability_system

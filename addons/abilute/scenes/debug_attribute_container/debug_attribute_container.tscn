@@ -4,8 +4,6 @@
 
 [node name="DebugAttributeContainer" type="HBoxContainer"]
 script = ExtResource("1_vllva")
-label = "Health"
-value = "100"
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
