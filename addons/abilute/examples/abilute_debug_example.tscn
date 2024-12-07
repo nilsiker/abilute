@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=22 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbilitySystem.gd" id="1_4eu7t"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Attribute.gd" id="2_ghsj1"]
@@ -7,11 +7,10 @@
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/EffectResource.gd" id="5_85wul"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="6_g5ab4"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/Tags.gd" id="7_blvny"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteDebugHUD.gd" id="8_xykks"]
-[ext_resource type="PackedScene" uid="uid://3dg42tag6i8r" path="res://addons/abilute/scenes/debug_attribute_container/debug_attribute_container.tscn" id="9_blpt0"]
 [ext_resource type="Script" path="res://addons/abilute/examples/DebugInputs.gd" id="10_44yhw"]
 [ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/abilute/examples/effects/debug_effect_instant_damage.tres" id="11_0xe4h"]
 [ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/examples/effects/debug_effect_fatigue.tres" id="12_45q61"]
+[ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_hud.tscn" id="12_b4gti"]
 [ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/examples/effects/debug_effect_heal.tres" id="13_uww45"]
 
 [sub_resource type="Resource" id="Resource_d4fpv"]
@@ -112,68 +111,11 @@ attribute = SubResource("Resource_smqbm")
 script = ExtResource("2_ghsj1")
 attribute = SubResource("Resource_2pxtd")
 
-[node name="AbiluteDebugHUD" type="CanvasLayer" parent="." node_paths=PackedStringArray("_attribute_container", "_inspected_label", "_active_ability_system")]
-script = ExtResource("8_xykks")
-_attribute_container = NodePath("Margins/AbilitySystemInfo/Sections/AttributesContainer/AttributeContainers")
-_inspected_label = NodePath("Margins/AbilitySystemInfo/InspectingLabel")
-_active_ability_system = NodePath("../Player/AbilitySystem")
-
-[node name="Margins" type="MarginContainer" parent="AbiluteDebugHUD"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
-
-[node name="AbilitySystemInfo" type="VBoxContainer" parent="AbiluteDebugHUD/Margins"]
-layout_mode = 2
-
-[node name="InspectingLabel" type="RichTextLabel" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[b]AbilitySystem (Debug_Example_Node)[/b]"
-fit_content = true
-
-[node name="Sections" type="HBoxContainer" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo"]
-layout_mode = 2
-theme_override_constants/separation = 50
-
-[node name="AttributesContainer" type="VBoxContainer" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections"]
-custom_minimum_size = Vector2(300, 0)
-layout_mode = 2
-
-[node name="AttributesLabel" type="RichTextLabel" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections/AttributesContainer"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[b][u]Attributes[/u][/b]"
-fit_content = true
-
-[node name="AttributeContainers" type="VBoxContainer" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections/AttributesContainer"]
-layout_mode = 2
-
-[node name="X" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections/AttributesContainer/AttributeContainers" instance=ExtResource("9_blpt0")]
-layout_mode = 2
-
-[node name="Y" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections/AttributesContainer/AttributeContainers" instance=ExtResource("9_blpt0")]
-layout_mode = 2
-
-[node name="TagsContainer" type="VBoxContainer" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Tags" type="RichTextLabel" parent="AbiluteDebugHUD/Margins/AbilitySystemInfo/Sections/TagsContainer"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[b][u]Tags[/u][/b]"
-fit_content = true
-
-[node name="DebugInputs" type="Label" parent="AbiluteDebugHUD/Margins" node_paths=PackedStringArray("target")]
-layout_mode = 2
+[node name="DebugInputs" type="Label" parent="." node_paths=PackedStringArray("target")]
+offset_left = 950.0
+offset_top = 5.0
+offset_right = 1147.0
+offset_bottom = 106.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "F to damage
@@ -181,9 +123,9 @@ G to fatigue
 H to heal
 T to toggle stamina regen"
 script = ExtResource("10_44yhw")
-target = NodePath("../../../Player/AbilitySystem")
+target = NodePath("../Player/AbilitySystem")
 damage_effect = ExtResource("11_0xe4h")
 stamina_effect = ExtResource("12_45q61")
 heal_effect = ExtResource("13_uww45")
 
-[connection signal="ability_system_changed" from="AbiluteDebugHUD" to="AbiluteDebugHUD/Margins/DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]
+[node name="AbiluteDebugHUD" parent="." instance=ExtResource("12_b4gti")]
