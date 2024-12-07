@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://3dg42tag6i8r"]
+
+[ext_resource type="Script" path="res://addons/abilute/scenes/debug_attribute_container/DebugAttributeContainer.gd" id="1_vllva"]
+
+[node name="DebugAttributeContainer" type="HBoxContainer"]
+script = ExtResource("1_vllva")
+label = "Health"
+value = "100"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "Health"
+
+[node name="Value" type="Label" parent="."]
+layout_mode = 2
+text = "100"

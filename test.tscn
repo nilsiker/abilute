@@ -1,26 +1,19 @@
-[gd_scene load_steps=9 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=7 format=3 uid="uid://c75i7pwddvu28"]
 
-[ext_resource type="Script" path="res://addons/absys/scripts/Attribute.gd" id="1_b3rnr"]
-[ext_resource type="Script" path="res://addons/absys/scripts/AttributeResource.gd" id="2_bwf7i"]
-[ext_resource type="Script" path="res://addons/absys/scripts/Effect.gd" id="3_gwrld"]
-[ext_resource type="Script" path="res://addons/absys/scripts/Modifier.gd" id="4_okfaf"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/Attribute.gd" id="1_b3rnr"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/AttributeResource.gd" id="2_bwf7i"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/Effect.gd" id="3_gwrld"]
 [ext_resource type="Script" path="res://DebugLabel.gd" id="5_bxcjf"]
 
 [sub_resource type="Resource" id="Resource_8jvei"]
 script = ExtResource("2_bwf7i")
-base_value = 100.0
+attribute = 0
 value = 100.0
 
 [sub_resource type="Resource" id="Resource_ekd0q"]
 script = ExtResource("2_bwf7i")
-base_value = 100.0
-value = 100.0
-
-[sub_resource type="Resource" id="Resource_1sjsx"]
-script = ExtResource("4_okfaf")
 attribute = 0
-kind = 0
-magnitude = -10.0
+value = 100.0
 
 [node name="Test" type="Node2D"]
 
@@ -32,60 +25,60 @@ attribute = SubResource("Resource_8jvei")
 
 [node name="Stamina" type="Node" parent="Player"]
 script = ExtResource("1_b3rnr")
-kind = 1
 attribute = SubResource("Resource_ekd0q")
 
 [node name="InstantDamageEffect" type="Node" parent="Player"]
 script = ExtResource("3_gwrld")
-modifiers = Array[ExtResource("4_okfaf")]([SubResource("Resource_1sjsx")])
 
 [node name="InfiniteRestEffect" type="Node" parent="Player"]
 script = ExtResource("3_gwrld")
-kind = 1
-duration = 0.0
-period = 0.0
 
-[node name="DebugHUD" type="CanvasLayer" parent="Player"]
+[node name="AbiluteDebugHUD" type="CanvasLayer" parent="Player"]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Player/DebugHUD"]
-anchors_preset = 15
-anchor_right = 1.0
+[node name="AbilitySystemInfo" type="VBoxContainer" parent="Player/AbiluteDebugHUD"]
+anchors_preset = 9
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_right = 402.0
 grow_vertical = 2
-alignment = 1
 
-[node name="Health" type="HBoxContainer" parent="Player/DebugHUD/VBoxContainer"]
+[node name="AttributesLabel" type="RichTextLabel" parent="Player/AbiluteDebugHUD/AbilitySystemInfo"]
 layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
+bbcode_enabled = true
+text = "[u]Attributes[/u]"
+fit_content = true
 
-[node name="Name" type="Label" parent="Player/DebugHUD/VBoxContainer/Health"]
+[node name="AttributeContainer" type="VBoxContainer" parent="Player/AbiluteDebugHUD/AbilitySystemInfo"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Health: "
 
-[node name="Value" type="Label" parent="Player/DebugHUD/VBoxContainer/Health"]
+[node name="Health" type="HBoxContainer" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+
+[node name="Name" type="Label" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Health"]
+layout_mode = 2
+text = "Health"
+
+[node name="Value" type="Label" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Health"]
+layout_mode = 2
 text = "100"
 script = ExtResource("5_bxcjf")
 
-[node name="Stamina" type="HBoxContainer" parent="Player/DebugHUD/VBoxContainer"]
+[node name="Stamina" type="HBoxContainer" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
-alignment = 1
 
-[node name="Name" type="Label" parent="Player/DebugHUD/VBoxContainer/Stamina"]
+[node name="Name" type="Label" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Stamina"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Stamina: "
+text = "Stamina"
 
-[node name="Value" type="Label" parent="Player/DebugHUD/VBoxContainer/Stamina"]
+[node name="Value" type="Label" parent="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Stamina"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
 text = "100"
 script = ExtResource("5_bxcjf")
 
-[connection signal="value_changed" from="Player/Health" to="Player/DebugHUD/VBoxContainer/Health/Value" method="_on_value_changed"]
-[connection signal="value_changed" from="Player/Stamina" to="Player/DebugHUD/VBoxContainer/Stamina/Value" method="_on_value_changed"]
+[node name="Tags" type="RichTextLabel" parent="Player/AbiluteDebugHUD/AbilitySystemInfo"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[u]Tags[/u]"
+fit_content = true
+
+[connection signal="value_changed" from="Player/Health" to="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Health/Value" method="_on_value_changed"]
+[connection signal="value_changed" from="Player/Stamina" to="Player/AbiluteDebugHUD/AbilitySystemInfo/AttributeContainer/Stamina/Value" method="_on_value_changed"]

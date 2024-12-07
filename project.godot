@@ -18,10 +18,14 @@ attributes=["Health", "Stamina", "Mana"]
 
 [application]
 
-config/name="absys"
-run/main_scene="res://addons/absys/examples/test.tscn"
+config/name="abilute"
+run/main_scene="res://addons/abilute/examples/abilute_debug_example.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/always_on_top=true
 
 [dotnet]
 
@@ -29,7 +33,7 @@ project/assembly_name="gabil"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/absys/plugin.cfg")
+enabled=PackedStringArray("res://addons/abilute/plugin.cfg")
 
 [input]
 

@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="EffectResource" load_steps=4 format=3 uid="uid://jm1krkshnxrg"]
 
-[ext_resource type="Script" path="res://addons/absys/scripts/Modifier.gd" id="1_rdwkb"]
-[ext_resource type="Script" path="res://addons/absys/scripts/EffectResource.gd" id="2_pip17"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="1_rdwkb"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/EffectResource.gd" id="2_pip17"]
 
 [sub_resource type="Resource" id="Resource_kbcxn"]
 script = ExtResource("1_rdwkb")
@@ -15,3 +15,5 @@ kind = 0
 modifiers = Array[ExtResource("1_rdwkb")]([SubResource("Resource_kbcxn")])
 duration = 0.0
 period = 0.0
+success_effects = Array[ExtResource("2_pip17")]([])
+failure_effects = Array[ExtResource("2_pip17")]([])
