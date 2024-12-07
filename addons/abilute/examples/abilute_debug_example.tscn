@@ -129,3 +129,5 @@ stamina_effect = ExtResource("12_45q61")
 heal_effect = ExtResource("13_uww45")
 
 [node name="AbiluteDebugHUD" parent="." instance=ExtResource("12_b4gti")]
+
+[connection signal="ability_system_changed" from="AbiluteDebugHUD" to="DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]
