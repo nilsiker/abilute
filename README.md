@@ -24,11 +24,11 @@ er[EffectResource]
 e([Effect])
 abr[AbilityResource]
 ab([Ability])
+tags[Tags]
 
 chr--has-->acs
 
 acs--"has multiple"-->at
-
 acs--"activates"-->ab
 
 atr--"defines"-->at
@@ -39,11 +39,42 @@ ab--"might consume"-->at
 ab--"causes"-->e
 
 e--"modifies"-->at
-
 ```
 
 ```mermaid
-erDiagram
-AbilitySystem 1--1 Acs: has
+classDiagram
+direction BT
+namespace Godot {
+    class Node
+    class Resource
+}
+
+namespace Abilute {
+    class AbilitySystem {
+        +get_attributes() Attribute[]
+        +add_effect() Attribute[]
+    }
+    class Attribute {
+        + value : float
+    }
+    class AttributeResource
+    class Effect
+    class EffectResource
+    class Ability
+    class AbilityResource
+}
+
+Attribute--|>Node
+Effect--|>Node
+AttributeResource--|>Resource
+EffectResource--|>Resource
+
+Attribute-->AttributeResource
+Effect-->EffectResource
+
+AbilitySystem o-- Attribute
+AbilitySystem o-- Effect
+
+AbilityResource o-- EffectResource
 
 ```
