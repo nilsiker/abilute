@@ -31,10 +31,10 @@ magnitude = 1.0
 
 [sub_resource type="Resource" id="Resource_7inlg"]
 script = ExtResource("7_blvny")
-applies = PackedStringArray()
+applies = PackedStringArray("stamina.regen")
 required = PackedStringArray()
 blocked_on_application = PackedStringArray()
-blocked_on_trigger = PackedStringArray()
+blocked_on_trigger = PackedStringArray("stamina.regen.block")
 
 [sub_resource type="Resource" id="Resource_er1i3"]
 script = ExtResource("5_85wul")
@@ -130,4 +130,7 @@ heal_effect = ExtResource("13_uww45")
 
 [node name="AbiluteDebugHUD" parent="." instance=ExtResource("12_b4gti")]
 
+[connection signal="application_requested" from="Player/AbilitySystem/InfiniteRestEffect" to="Player/AbilitySystem" method="_on_effect_application_requested"]
+[connection signal="removal_requested" from="Player/AbilitySystem/InfiniteRestEffect" to="Player/AbilitySystem" method="_on_effect_removal_requested"]
+[connection signal="trigger_requested" from="Player/AbilitySystem/InfiniteRestEffect" to="Player/AbilitySystem" method="_on_effect_trigger_requested"]
 [connection signal="ability_system_changed" from="AbiluteDebugHUD" to="DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]

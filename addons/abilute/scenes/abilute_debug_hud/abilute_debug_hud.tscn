@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://addons/abilute/scenes/abilute_debug_hud/AbiluteDebugHUD.gd" id="1_2l05d"]
 [ext_resource type="PackedScene" uid="uid://3dg42tag6i8r" path="res://addons/abilute/scenes/debug_attribute_container/debug_attribute_container.tscn" id="2_s6flu"]
 
-[node name="AbiluteDebugHUD" type="CanvasLayer" node_paths=PackedStringArray("_attribute_container", "_inspected_label", "_active_ability_system")]
+[node name="AbiluteDebugHUD" type="CanvasLayer" node_paths=PackedStringArray("_attribute_container", "_tags", "_inspected_label")]
 script = ExtResource("1_2l05d")
 _attribute_container = NodePath("Margins/AbilitySystemInfo/Sections/AttributesContainer/AttributeContainers")
+_tags = NodePath("Margins/AbilitySystemInfo/Sections/TagsContainer/TagValues")
 _inspected_label = NodePath("Margins/AbilitySystemInfo/InspectingLabel")
-_active_ability_system = NodePath("")
 
 [node name="Margins" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -62,3 +62,6 @@ layout_mode = 2
 bbcode_enabled = true
 text = "[b][u]Tags[/u][/b]"
 fit_content = true
+
+[node name="TagValues" type="Label" parent="Margins/AbilitySystemInfo/Sections/TagsContainer"]
+layout_mode = 2

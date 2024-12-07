@@ -46,7 +46,7 @@ func _trigger_infinite():
 #region Timer helpers
 func _add_duration_timer():
 	var duration_timer = Timer.new()
-	duration_timer.wait_time = effect.period
+	duration_timer.wait_time = effect.duration
 	duration_timer.autostart = true
 	duration_timer.one_shot = true
 	duration_timer.timeout.connect(_request_removal)

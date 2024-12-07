@@ -14,8 +14,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		target.add_effect(stamina_effect)
 	elif event.is_action_pressed("debug_heal"):
 		target.add_effect(heal_effect)
-	elif event.is_action_pressed("debug_stamina_regen_block"):
-		target.add_effect(stamina_regen_block_effect)
 #endregion
 
 #region Signal handlers

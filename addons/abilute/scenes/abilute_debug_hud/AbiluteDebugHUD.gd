@@ -3,6 +3,7 @@ class_name AbiluteDebugHUD extends CanvasLayer
 signal ability_system_changed(ability_system: AbilitySystem)
 
 @export var _attribute_container: VBoxContainer
+@export var _tags: Label
 @export var _inspected_label: RichTextLabel
 @export var _active_ability_system: AbilitySystem:
 	get: return get_tree().get_nodes_in_group("AbilitySystems")[_system_index]
@@ -10,8 +11,14 @@ signal ability_system_changed(ability_system: AbilitySystem)
 var _system_index = 0
 var DebugAttributeContainer = preload("res://addons/abilute/scenes/debug_attribute_container/DebugAttributeContainer.gd")
 
+
 func _ready() -> void:
 	_update_selected_system()
+
+
+func _process(delta: float) -> void:
+	_tags.text = ",".join(_active_ability_system.tags.keys())
+	
 
 func _refresh_attribute_containers():
 	if not _attribute_container: return
