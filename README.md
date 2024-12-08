@@ -15,33 +15,6 @@
 ## Design overview
 
 ```mermaid
-graph TB
-chr([Character])
-acs([**AbilitySystem**])
-at([Attribute])
-atr[AttributeResource]
-er[EffectResource]
-e([Effect])
-abr[AbilityResource]
-ab([Ability])
-tags[Tags]
-
-chr--has-->acs
-
-acs--"has multiple"-->at
-acs--"activates"-->ab
-
-atr--"defines"-->at
-er--"defines"-->e
-abr--"defines"-->ab
-
-ab--"might consume"-->at
-ab--"causes"-->e
-
-e--"modifies"-->at
-```
-
-```mermaid
 classDiagram
 direction BT
 namespace Godot {
@@ -50,18 +23,63 @@ namespace Godot {
 }
 
 namespace Abilute {
+    class AttributeChangeData {
+        old_value: float
+        new_value: float
+    }
     class AbilitySystem {
-        +get_attributes() Attribute[]
-        +add_effect() Attribute[]
+        add_effect() bool
+        get_attribute_base(EAttribute) float
+        get_attribute_value(EAttribute) float
+        _get_attributes() Attribute[]
+        _apply_effect() void
+        _trigger_effect() void
+        _remove_effect() void
+
+        _pre_attribute_change(AttributeChangeData)
+        _on_attribute_change(AttributeChangeData)
+        _post_attribute_change(AttributeChangeData)
     }
     class Attribute {
-        + value : float
+        signal base_changed(float)
+        signal value_changed(float)
+        
+        get_value() float
+        get_base() float
+
     }
-    class AttributeResource
-    class Effect
+    class AttributeResource {
+        _base_value : float
+    }
+    class Effect {
+        signal application_requested(Effect)
+        signal trigger_requested(Effect)
+        signal removal_requested(Effect)
+    }
     class EffectResource
     class Ability
     class AbilityResource
+    class Modifier {
+        magnitude: float
+    }
+    class EDuration {
+        <<enum>>
+        Instant,
+        Duration,
+        Infinite
+    }
+    class EOperation {
+        <<enum>>
+        Add,
+        Multiply,
+        Override
+    }
+    class EAttribute {
+        <<enum>>
+        Health,
+        Stamina,
+        Mana
+    }
 }
 
 Attribute--|>Node
@@ -69,12 +87,24 @@ Effect--|>Node
 AttributeResource--|>Resource
 EffectResource--|>Resource
 
+AbilitySystem o-- Attribute: parents
+AbilitySystem o-- Effect: parents
+AbilitySystem o-- Ability: parents
+
 Attribute-->AttributeResource
 Effect-->EffectResource
 
-AbilitySystem o-- Attribute
-AbilitySystem o-- Effect
-
+Ability-->AbilityResource
 AbilityResource o-- EffectResource
+Ability --> AbilitySystem: performs logic on
+
+Modifier --> EAttribute
+Modifier --> EOperation
+Modifier --> EDuration
+
+EffectResource o-- Modifier
+
+AbilitySystem --> Attribute: modifies
+AbilitySystem --> AttributeChangeData
 
 ```

@@ -15,5 +15,7 @@ kind = 0
 modifiers = Array[ExtResource("1_7ecau")]([SubResource("Resource_6wt6t")])
 duration = 0.0
 period = 0.0
+trigger_blocked_by = Array[ExtResource("2_6n8kj")]([])
+application_blocked_by = Array[ExtResource("2_6n8kj")]([])
 success_effects = Array[ExtResource("2_6n8kj")]([])
 failure_effects = Array[ExtResource("2_6n8kj")]([])

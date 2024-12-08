@@ -11,7 +11,7 @@ func _init(attribute: Attribute = null):
 	var label = Label.new()
 	label.text = attribute.name
 	var value = Label.new()
-	value.text = str(attribute.attribute.value)
+	value.text = str(attribute.data.base_value)
 
 	_label = label
 	_value = value

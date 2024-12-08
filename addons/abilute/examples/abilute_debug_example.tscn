@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=18 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbilitySystem.gd" id="1_4eu7t"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Attribute.gd" id="2_ghsj1"]
@@ -6,65 +6,44 @@
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="4_w01lq"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/EffectResource.gd" id="5_85wul"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="6_g5ab4"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Tags.gd" id="7_blvny"]
+[ext_resource type="Resource" uid="uid://b4svugorlo5mf" path="res://addons/abilute/examples/effects/effect_stamina_regen_block.tres" id="7_ifbko"]
 [ext_resource type="Script" path="res://addons/abilute/examples/DebugInputs.gd" id="10_44yhw"]
 [ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/abilute/examples/effects/debug_effect_instant_damage.tres" id="11_0xe4h"]
 [ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/examples/effects/debug_effect_fatigue.tres" id="12_45q61"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_hud.tscn" id="12_b4gti"]
 [ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/examples/effects/debug_effect_heal.tres" id="13_uww45"]
 
-[sub_resource type="Resource" id="Resource_d4fpv"]
+[sub_resource type="Resource" id="Resource_fkbfw"]
 script = ExtResource("3_w47a3")
-attribute = 0
-value = 100.0
+kind = 0
+base_value = 100.0
 
-[sub_resource type="Resource" id="Resource_13vy6"]
+[sub_resource type="Resource" id="Resource_sxqud"]
 script = ExtResource("3_w47a3")
-attribute = 1
-value = 100.0
+kind = 1
+base_value = 100.0
 
-[sub_resource type="Resource" id="Resource_acwa3"]
+[sub_resource type="Resource" id="Resource_m1uqf"]
 script = ExtResource("6_g5ab4")
 attribute = 1
 operation = 0
 magnitude = 1.0
 
-[sub_resource type="Resource" id="Resource_7inlg"]
-script = ExtResource("7_blvny")
-applies = PackedStringArray("stamina.regen")
-required = PackedStringArray()
-blocked_on_application = PackedStringArray()
-blocked_on_trigger = PackedStringArray("stamina.regen.block")
-
-[sub_resource type="Resource" id="Resource_er1i3"]
+[sub_resource type="Resource" id="Resource_nqpbm"]
 script = ExtResource("5_85wul")
 kind = 2
-tags = SubResource("Resource_7inlg")
-modifiers = Array[ExtResource("6_g5ab4")]([SubResource("Resource_acwa3")])
+modifiers = Array[ExtResource("6_g5ab4")]([SubResource("Resource_m1uqf")])
 duration = 0.0
-period = 0.5
+period = 0.1
+trigger_blocked_by = Array[ExtResource("5_85wul")]([ExtResource("7_ifbko")])
+application_blocked_by = Array[ExtResource("5_85wul")]([])
 success_effects = Array[ExtResource("5_85wul")]([])
 failure_effects = Array[ExtResource("5_85wul")]([])
 
-[sub_resource type="Resource" id="Resource_0d1ua"]
+[sub_resource type="Resource" id="Resource_avk3t"]
 script = ExtResource("3_w47a3")
-attribute = 0
-value = 100.0
-
-[sub_resource type="Resource" id="Resource_x65ba"]
-script = ExtResource("3_w47a3")
-attribute = 0
-value = 500.0
-
-[sub_resource type="Resource" id="Resource_smqbm"]
-script = ExtResource("3_w47a3")
-attribute = 1
-value = 300.0
-
-[sub_resource type="Resource" id="Resource_2pxtd"]
-script = ExtResource("3_w47a3")
-attribute = 2
-value = 100.0
+kind = 0
+base_value = 100.0
 
 [node name="Test" type="Node2D"]
 
@@ -75,41 +54,24 @@ script = ExtResource("1_4eu7t")
 
 [node name="Health" type="Node" parent="Player/AbilitySystem"]
 script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_d4fpv")
+data = SubResource("Resource_fkbfw")
 
 [node name="Stamina" type="Node" parent="Player/AbilitySystem"]
 script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_13vy6")
+data = SubResource("Resource_sxqud")
 
 [node name="InfiniteRestEffect" type="Node" parent="Player/AbilitySystem"]
 script = ExtResource("4_w01lq")
-effect = SubResource("Resource_er1i3")
+data = SubResource("Resource_nqpbm")
 
 [node name="Slime" type="Node" parent="."]
 
-[node name="GruntAbilitySystem" type="Node" parent="Slime"]
+[node name="AbilitySystem" type="Node" parent="Slime"]
 script = ExtResource("1_4eu7t")
 
-[node name="Health" type="Node" parent="Slime/GruntAbilitySystem"]
+[node name="Health" type="Node" parent="Slime/AbilitySystem"]
 script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_0d1ua")
-
-[node name="Grak\'thar the Mutilator" type="Node" parent="."]
-
-[node name="BossAbilitySystem" type="Node" parent="Grak\'thar the Mutilator"]
-script = ExtResource("1_4eu7t")
-
-[node name="Health" type="Node" parent="Grak\'thar the Mutilator/BossAbilitySystem"]
-script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_x65ba")
-
-[node name="Stamina" type="Node" parent="Grak\'thar the Mutilator/BossAbilitySystem"]
-script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_smqbm")
-
-[node name="Mana" type="Node" parent="Grak\'thar the Mutilator/BossAbilitySystem"]
-script = ExtResource("2_ghsj1")
-attribute = SubResource("Resource_2pxtd")
+data = SubResource("Resource_avk3t")
 
 [node name="DebugInputs" type="Label" parent="." node_paths=PackedStringArray("target")]
 offset_left = 950.0

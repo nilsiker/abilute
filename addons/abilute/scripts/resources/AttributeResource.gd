@@ -7,5 +7,5 @@ enum Kind {
 	Mana
 }
 
-@export var attribute: Kind
-@export var value: float = 100	
+@export var kind: Kind
+@export var base_value: float = 100	

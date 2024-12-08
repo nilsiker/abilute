@@ -1,6 +1,6 @@
 class_name Effect extends Node
 
-@export var effect: EffectResource
+@export var data: EffectResource
 
 signal application_requested(effect: Effect)
 signal trigger_requested(effect: Effect)
@@ -9,17 +9,23 @@ signal removal_requested(effect: Effect)
 
 #region Overrides
 func _init(resource: EffectResource = null):
-	effect = resource
+	data = resource
 	
 
 func _ready() -> void:
-	match effect.kind:
+	data.resource_name = data.resource_path.split('/')[-1].split('.')[0]
+	match data.kind:
 		EffectResource.Kind.Instant: _trigger_instant()
 		EffectResource.Kind.Duration: _trigger_duration()
 		EffectResource.Kind.Infinite: _trigger_infinite()
 #endregion
 
-
+func time_left() -> float:
+	match data.kind:
+		EffectResource.Kind.Duration: return $DurationTimer.time_left
+		EffectResource.Kind.Infinite: return INF
+		_:  return 0
+		
 #region Effect Triggers
 func _trigger_instant():
 	_request_trigger()
@@ -29,7 +35,7 @@ func _trigger_instant():
 func _trigger_duration():
 	_request_application()
 	_add_duration_timer()
-	if effect.period > 0.0:
+	if data.period > 0.0:
 		_add_period_timer()
 	else:
 		_request_trigger()
@@ -37,7 +43,7 @@ func _trigger_duration():
 
 func _trigger_infinite():
 	_request_application()
-	if effect.period > 0.0:
+	if data.period > 0.0:
 		_add_period_timer()
 	else:
 		_request_trigger()
@@ -46,7 +52,8 @@ func _trigger_infinite():
 #region Timer helpers
 func _add_duration_timer():
 	var duration_timer = Timer.new()
-	duration_timer.wait_time = effect.duration
+	duration_timer.name = "DurationTimer"
+	duration_timer.wait_time = data.duration
 	duration_timer.autostart = true
 	duration_timer.one_shot = true
 	duration_timer.timeout.connect(_request_removal)
@@ -55,7 +62,7 @@ func _add_duration_timer():
 
 func _add_period_timer():
 	var period_timer = Timer.new()
-	period_timer.wait_time = effect.period
+	period_timer.wait_time = data.period
 	period_timer.autostart = true
 	period_timer.one_shot = false
 	period_timer.timeout.connect(_request_trigger)
@@ -64,15 +71,15 @@ func _add_period_timer():
 
 #region Signal emitters
 func _request_application():
-	application_requested.emit(effect)
+	application_requested.emit(data)
 
 
 func _request_trigger():
-	trigger_requested.emit(effect)
+	trigger_requested.emit(data)
 
 
 func _request_removal():
-	removal_requested.emit(effect)
+	removal_requested.emit(data)
 	queue_free()
-	# NOTE we free here because on effect removal, we most likely always want to free the node also with potential timer children
+	# NOTE we free here because on data removal, we most likely always want to free the node also with potential timer children
 #endregion
