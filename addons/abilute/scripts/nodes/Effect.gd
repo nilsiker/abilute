@@ -34,7 +34,9 @@ func _trigger_duration():
 	_request_application()
 	_add_duration_timer()
 	if data.period > 0.0:
-		_add_period_timer()	
+		_add_period_timer()
+	else:
+		_request_trigger()
 
 func _trigger_infinite():
 	_request_application()
@@ -57,6 +59,7 @@ func _add_duration_timer():
 
 func _add_period_timer():
 	var period_timer = Timer.new()
+	period_timer.name = "PeriodTimer"
 	period_timer.wait_time = data.period
 	period_timer.autostart = true
 	period_timer.one_shot = false
@@ -66,15 +69,15 @@ func _add_period_timer():
 
 #region Signal emitters
 func _request_application():
-	application_requested.emit(data)
+	application_requested.emit(self)
 
 
 func _request_trigger():
-	trigger_requested.emit(data)
+	trigger_requested.emit(self)
 
 
 func _request_removal():
-	removal_requested.emit(data)
+	removal_requested.emit(self)
 	queue_free()
 	# NOTE we free here because on data removal, we most likely always want to free the node also with potential timer children
 #endregion

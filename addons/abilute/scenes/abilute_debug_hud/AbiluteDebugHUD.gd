@@ -30,7 +30,7 @@ func _refresh_attribute_containers():
 	_attribute_container.get_children().map(func(c): c.queue_free())
 
 	if not _active_ability_system: return
-	for attribute in _active_ability_system.attributes:
+	for attribute in _active_ability_system.find_children("*", "Attribute", true, false):
 		_add_attribute_debug_container(attribute)
 
 func _update_selected_system():

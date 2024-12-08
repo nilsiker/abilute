@@ -5,6 +5,7 @@ extends Label
 @export var stamina_effect: BaseEffect
 @export var heal_effect: BaseEffect
 @export var purge_effect: BaseEffect
+@export var buff_effect: BaseEffect
 
 #region Overrides
 func _unhandled_input(event: InputEvent) -> void:
@@ -18,6 +19,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		target.add_effect(heal_effect)
 	elif event.keycode == KEY_P:
 		target.add_effect(purge_effect)
+	elif event.keycode == KEY_B:
+		target.add_effect(buff_effect)
 #endregion
 
 #region Signal handlers

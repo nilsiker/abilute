@@ -1,10 +1,8 @@
 @tool
-class_name Modifier extends Resource
+class_name ModifierData extends Resource
 
 enum Operation {
 	Add = 1,
-	Multiply = 0,
-	Override = 2
 }
 
 var attribute: StringName

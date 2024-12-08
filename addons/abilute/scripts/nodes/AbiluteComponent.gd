@@ -1,74 +1,50 @@
-@tool class_name AbiluteComponent extends Node
+class_name AbiluteComponent extends Node
 
-signal attribute_base_changed(data: Attribute.ChangeData)
-signal attribute_changed(data: Attribute.ChangeData)
+signal attribute_base_value_changed(data: Attribute.ChangeData)
+signal attribute_value_changed(data: Attribute.ChangeData)
 
-@export var attributes: Array[Attribute]
+@export var attributes: Array[AttributeData]
 
 var effects: Array[Effect]:
 	get:
 		var array: Array[Effect]
-		array.assign(find_children("*", "Effect", true, false))
+		var found = find_children("*", "Effect", true, false)
+		array.assign(found)
 		return array
-	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group(Abilute.GROUP_NAME)
-	_register_attributes()
+	_init_attributes()
 	_register_start_effects()
 
-#region Attribute
-
+#region Attributes
 func get_attribute_base(attribute: StringName):
-	var found_attribute = attributes.filter(func(c): return c.attribute == attribute).front()
-	if found_attribute:
-		return found_attribute.base_value
-	else:
-		push_warning("no attribute of kind {0} found on {1}".format([name, get_parent().name]))
-		return -1
+	var node: Attribute = find_children(attribute, "Attribute", true, false).front()
+	return node.base_value
 
-
-# NOTE cache if too expensive
 func get_attribute_value(attribute: StringName):
-	var found_attribute = attributes.filter(func(c): return c.attribute == attribute).front()
-	if found_attribute:
-		var value = found_attribute.base_value
-		for effect in find_children("*", "Effect", true, false):
-			for modifier in effect.data.modifiers.filter(func(m): m.attribute == name):
-				match modifier.operation:
-					Modifier.Operation.Add:
-						value += modifier.magnitude
-					Modifier.Operation.Multiply:
-						value *= modifier.magnitude
-					Modifier.Operation.Override:
-						value = modifier.magnitude
-		return value
-	else:
-		push_warning("no attribute of kind {0} found on {1}".format([name, get_parent().name]))
-		return -1
+	var node: Attribute = find_children(attribute, "Attribute", true, false).front()
+	return node.value
 
-func _register_attributes():
+func _init_attributes():
+	var created = []
 	for attribute in attributes:
-		attribute.attribute_changed.connect(_pre_attribute_base_change)
-
-## Perform clamping of attribute base values
-func _pre_attribute_base_change(data: Attribute.ChangeData):
-	if not data.attribute.allow_negative:
-		data.new_value = max(0, data.new_value)
-	if data.attribute.max_attribute != Abilute.ATTRIBUTE_NONE:
-		var max_value = get_attribute_value(data.attribute.max_attribute)
-		data.new_value = min(max_value, data.new_value)
-	_on_attribute_base_change(data)
-
-func _on_attribute_base_change(data: Attribute.ChangeData):
-	var index = attributes.find(data.attribute)
-	if index != -1:
-		attributes[index].set_base_value_override(data.new_value)
-		attribute_base_changed.emit(data)
+		var node: Attribute = Attribute.new(attribute)
+		node.value_changed.emit(_on_attribute_value_changed)
+		node.base_value_changed.emit(_on_attribute_value_changed)
+		add_child(node)
+		created.push_back(node)
+	for node in created: node.init()
 	
-func _post_attribute_base_change(data: Attribute.ChangeData):
-	pass
+	
+func _on_attribute_base_value_changed(data: Attribute.ChangeData):
+	print("base ", data)
+	attribute_base_value_changed.emit(data)
+
+func _on_attribute_value_changed(data: Attribute.ChangeData):
+	print("value ", data)
+	attribute_value_changed.emit(data)
 #endregion
 
 #region Effects
@@ -90,42 +66,43 @@ func _register_start_effects():
 		effect.application_requested.connect(_on_effect_application_requested)
 		effect.trigger_requested.connect(_on_effect_trigger_requested)
 		effect.removal_requested.connect(_on_effect_removal_requested)
+		_apply_effect(effect)
 
 
-func _apply_effect(effect: BaseEffect):
-	print("TODO register and keep modifier info for each attribute, for each attribute modified, emit signals")
+func _apply_effect(effect: Effect):
+	print("todo apply effect logic")
+	_trigger_effect(effect)
 
 ## Effect trigger effects always modify base value
-func _trigger_effect(effect: BaseEffect):
-	for modifier in effect.modifiers:
-		var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
-		if attribute.size() > 0:
-			match modifier.operation:
-				Modifier.Operation.Add:
-					attribute[0].base_value += modifier.magnitude
-				Modifier.Operation.Multiply:
-					attribute[0].base_value *= modifier.magnitude
-				Modifier.Operation.Override:
-					attribute[0].base_value = modifier.magnitude
-	for effect_to_remove in effect.removes:
-		_remove_effect(effect_to_remove)
-	for success_effect in effect.success_effects:
+func _trigger_effect(effect: Effect):
+	for modifier in effect.data.modifiers:
+		var attribute: Attribute = get_node(str(modifier.attribute))
+		if attribute:
+			if effect.data.modifies_base:
+				attribute.add_base_modifier(Modifier.new(modifier))
+			else:
+				attribute.add_modifier(Modifier.new(modifier, effect.tree_exited))
+
+	for effect_data in effect.data.removes:
+		var node = find_children("*", "Effect", true, false).filter(func(e): e.data == effect_data).front()
+		if node: _remove_effect(node)
+	for success_effect in effect.data.success_effects:
 		add_effect(success_effect)
 
-func _remove_effect(effect_to_remove: BaseEffect):
-	for node in effects.filter(func(e): return e.data == effect_to_remove):
-		node.queue_free()
+func _remove_effect(effect: Effect):
+	effect.queue_free()
 
-func _on_effect_application_requested(effect: BaseEffect):
-	for blocking_effect in effect.application_blocked_by:
+func _on_effect_application_requested(effect: Effect):
+	var data = effect.data
+	for blocking_effect in data.application_blocked_by:
 		if effects.find(blocking_effect) > -1: return
 	_apply_effect(effect)
 
-func _on_effect_trigger_requested(effect: BaseEffect):
-	for blocking_effect in effect.trigger_blocked_by:
+func _on_effect_trigger_requested(effect: Effect):
+	for blocking_effect in effect.data.trigger_blocked_by:
 		if effects.map(func(e): return e.data).find(blocking_effect) > -1: return
 	_trigger_effect(effect)
 
-func _on_effect_removal_requested(effect: BaseEffect):
+func _on_effect_removal_requested(effect: Effect):
 	_remove_effect(effect)
 #endregion
