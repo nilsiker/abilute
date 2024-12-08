@@ -1,5 +1,6 @@
 @tool class_name AbiluteComponent extends Node
 
+signal attribute_base_changed(data: Attribute.ChangeData)
 signal attribute_changed(data: Attribute.ChangeData)
 
 @export var attributes: Array[Attribute]
@@ -49,31 +50,30 @@ func get_attribute_value(attribute: StringName):
 
 func _register_attributes():
 	for attribute in attributes:
-		attribute.attribute_changed.connect(_pre_attribute_change)
+		attribute.attribute_changed.connect(_pre_attribute_base_change)
 
 ## Perform clamping of attribute base values
-func _pre_attribute_change(data: Attribute.ChangeData):
+func _pre_attribute_base_change(data: Attribute.ChangeData):
 	if not data.attribute.allow_negative:
 		data.new_value = max(0, data.new_value)
 	if data.attribute.max_attribute != Abilute.ATTRIBUTE_NONE:
 		var max_value = get_attribute_value(data.attribute.max_attribute)
 		data.new_value = min(max_value, data.new_value)
-	_on_attribute_change(data)
+	_on_attribute_base_change(data)
 
-func _on_attribute_change(data: Attribute.ChangeData):
+func _on_attribute_base_change(data: Attribute.ChangeData):
 	var index = attributes.find(data.attribute)
 	if index != -1:
 		attributes[index].set_base_value_override(data.new_value)
-	pass
-
-func _post_attribute_change(data: Attribute.ChangeData):
-	attribute_changed.emit(data)
+		attribute_base_changed.emit(data)
+	
+func _post_attribute_base_change(data: Attribute.ChangeData):
 	pass
 #endregion
 
 #region Effects
 func add_effect(effect: BaseEffect):
-	var existing_effect = effects.filter(func(e): return e.data == effect).front()
+	var existing_effect = effects.filter(func(e): return e.data == effect).pop_back()
 	if existing_effect: # FIXME this is quick and dirty
 		if existing_effect.data is DurationEffect and existing_effect.data.allow_reapply: # FIXME this quick and dirty
 			existing_effect.queue_free()
@@ -93,43 +93,20 @@ func _register_start_effects():
 
 
 func _apply_effect(effect: BaseEffect):
-	print("TODO handle on application logic for effects")
+	print("TODO register and keep modifier info for each attribute, for each attribute modified, emit signals")
 
+## Effect trigger effects always modify base value
 func _trigger_effect(effect: BaseEffect):
-	if effect is InfiniteEffect:
-		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
-			if attribute.size() > 0:
-				match modifier.operation:
-					Modifier.Operation.Add:
-						attribute[0].base_value += modifier.magnitude
-					Modifier.Operation.Multiply:
-						attribute[0].base_value *= modifier.magnitude
-					Modifier.Operation.Override:
-						attribute[0].base_value = modifier.magnitude
-	elif effect is DurationEffect:
-		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
-			if attribute.size() > 0:
-				match modifier.operation:
-					Modifier.Operation.Add:
-						attribute[0].base_value += modifier.magnitude
-					Modifier.Operation.Multiply:
-						attribute[0].base_value *= modifier.magnitude
-					Modifier.Operation.Override:
-						attribute[0].base_value = modifier.magnitude
-	else: # BaseEffects are instant effects
-		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
-			if attribute.size() > 0:
-				match modifier.operation:
-					Modifier.Operation.Add:
-						attribute[0].base_value += modifier.magnitude
-					Modifier.Operation.Multiply:
-						attribute[0].base_value *= modifier.magnitude
-					Modifier.Operation.Override:
-						attribute[0].base_value = modifier.magnitude
-						
+	for modifier in effect.modifiers:
+		var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
+		if attribute.size() > 0:
+			match modifier.operation:
+				Modifier.Operation.Add:
+					attribute[0].base_value += modifier.magnitude
+				Modifier.Operation.Multiply:
+					attribute[0].base_value *= modifier.magnitude
+				Modifier.Operation.Override:
+					attribute[0].base_value = modifier.magnitude
 	for effect_to_remove in effect.removes:
 		_remove_effect(effect_to_remove)
 	for success_effect in effect.success_effects:

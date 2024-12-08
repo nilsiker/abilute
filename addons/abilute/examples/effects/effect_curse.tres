@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_gprfq"]
 script = ExtResource("2_jrq11")
-operation = 0
+operation = 1
 magnitude = -1.0
 attribute = &"Health"
 

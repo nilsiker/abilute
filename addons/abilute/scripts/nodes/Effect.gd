@@ -34,10 +34,7 @@ func _trigger_duration():
 	_request_application()
 	_add_duration_timer()
 	if data.period > 0.0:
-		_add_period_timer()
-	else:
-		_request_trigger()
-	
+		_add_period_timer()	
 
 func _trigger_infinite():
 	_request_application()
