@@ -1,6 +1,8 @@
 @tool
-class_name AttributeResource extends Resource
+class_name Attribute extends Resource
 
+static func str(kind: Attribute.Kind) -> String:
+	return Kind.keys()[kind]
 
 signal base_value_changed(value: float)
 

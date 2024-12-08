@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://c75i7pwddvu28"]
 
-[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="1_oaaa8"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Attribute.gd" id="2_74jod"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbilitySystem.gd" id="1_4eu7t"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/AttributeResource.gd" id="3_w47a3"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="4_w01lq"]
 [ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/examples/effects/effect_stamina_regen.tres" id="5_5ip4n"]
 [ext_resource type="Script" path="res://addons/abilute/examples/DebugInputs.gd" id="10_44yhw"]
@@ -10,33 +10,46 @@
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_hud.tscn" id="12_b4gti"]
 [ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/examples/effects/effect_heal.tres" id="13_uww45"]
 
-[sub_resource type="Resource" id="Resource_ta5ge"]
-script = ExtResource("2_74jod")
+[sub_resource type="Resource" id="Resource_vclhm"]
+script = ExtResource("3_w47a3")
 kind = 0
 base_value = 100.0
 
-[sub_resource type="Resource" id="Resource_cpj7f"]
-script = ExtResource("2_74jod")
+[sub_resource type="Resource" id="Resource_rv030"]
+script = ExtResource("3_w47a3")
 kind = 1
 base_value = 100.0
 
-[sub_resource type="Resource" id="Resource_u631v"]
-script = ExtResource("2_74jod")
+[sub_resource type="GDScript" id="GDScript_t65ry"]
+script/source = "class_name Attribute extends Node
+
+static func str(kind: AttributeResource.Kind) -> String:
+	return AttributeResource.Kind.keys()[kind]
+
+signal base_value_changed(float)
+
+@export var data: AttributeResource
+
+func add(val: float):
+	data.base_value += val
+	base_value_changed.emit(data.base_value)
+
+func mul(val: float):
+	data.base_value *= val
+	base_value_changed.emit(data.base_value)"
+
+[sub_resource type="Resource" id="Resource_avk3t"]
+script = ExtResource("3_w47a3")
 kind = 0
-base_value = 100.0
-
-[sub_resource type="Resource" id="Resource_67og2"]
-script = ExtResource("2_74jod")
-kind = 1
-base_value = 100.0
+base_value = null
 
 [node name="Test" type="Node2D"]
 
 [node name="Player" type="Node" parent="."]
 
 [node name="AbiluteComponent" type="Node" parent="Player"]
-script = ExtResource("1_oaaa8")
-attributes = Array[ExtResource("2_74jod")]([SubResource("Resource_ta5ge"), SubResource("Resource_cpj7f")])
+script = ExtResource("1_4eu7t")
+attributes = Array[ExtResource("3_w47a3")]([SubResource("Resource_vclhm"), SubResource("Resource_rv030")])
 
 [node name="InfiniteStaminaRegen" type="Node" parent="Player/AbiluteComponent"]
 script = ExtResource("4_w01lq")
@@ -44,13 +57,13 @@ data = ExtResource("5_5ip4n")
 
 [node name="Slime" type="Node" parent="."]
 
-[node name="AbiluteComponent" type="Node" parent="Slime"]
-script = ExtResource("1_oaaa8")
-attributes = Array[ExtResource("2_74jod")]([SubResource("Resource_u631v"), SubResource("Resource_67og2")])
+[node name="AbilitySystem" type="Node" parent="Slime"]
+script = ExtResource("1_4eu7t")
+attributes = null
 
-[node name="InfiniteStaminaRegen" type="Node" parent="Slime/AbiluteComponent"]
-script = ExtResource("4_w01lq")
-data = ExtResource("5_5ip4n")
+[node name="Health" type="Node" parent="Slime/AbilitySystem"]
+script = SubResource("GDScript_t65ry")
+data = SubResource("Resource_avk3t")
 
 [node name="AbiluteDebugHUD" parent="." instance=ExtResource("12_b4gti")]
 

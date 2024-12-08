@@ -1,6 +1,6 @@
 extends Label
 
-@export var target: AbilitySystem
+@export var target: AbiluteComponent
 @export var damage_effect: BaseEffect
 @export var stamina_effect: BaseEffect
 @export var heal_effect: BaseEffect
@@ -17,6 +17,6 @@ func _unhandled_input(event: InputEvent) -> void:
 #endregion
 
 #region Signal handlers
-func _on_abilute_debug_hud_ability_system_changed(ability_system: AbilitySystem) -> void:
+func _on_abilute_debug_hud_ability_system_changed(ability_system: AbiluteComponent) -> void:
 	target = ability_system
 #endregion

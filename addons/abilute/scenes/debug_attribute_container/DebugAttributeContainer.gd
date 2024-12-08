@@ -3,9 +3,9 @@
 var _label: Label
 var _value: Label
 
-@export var _attribute: AttributeResource
+@export var _attribute: Attribute
 
-func _init(attribute: AttributeResource = null):
+func _init(attribute: Attribute = null):
 	if not attribute: return
 	_attribute = attribute
 	var label = Label.new()
