@@ -8,8 +8,10 @@
 script = ExtResource("3_17xqp")
 duration = 1.5
 period = 0.0
+allow_reapply = true
 modifiers = Array[ExtResource("2_2t11w")]([])
 trigger_blocked_by = Array[ExtResource("1_i43cf")]([])
 application_blocked_by = Array[ExtResource("1_i43cf")]([])
+removes = Array[ExtResource("1_i43cf")]([])
 success_effects = Array[ExtResource("1_i43cf")]([])
 failure_effects = Array[ExtResource("1_i43cf")]([])
