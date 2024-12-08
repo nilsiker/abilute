@@ -24,6 +24,7 @@ var base_value: float = 100:
 		var data: ChangeData = ChangeData.new(self, old_value, _base_value)
 		attribute_changed.emit(data)
 
+var allow_negative: bool = false
 var has_max_value: bool = false:
 	get: return has_max_value
 	set(value): 
@@ -37,6 +38,7 @@ func _get_property_list() -> Array[Dictionary]:
 	var list: Array[Dictionary] = []
 	list.append(Abilute.ATTRIBUTE_PROPERTY)
 	list.append({"name": "base_value", "type": TYPE_FLOAT})
+	list.append({"name": "allow_negative", "type": TYPE_BOOL})
 	list.append({"name": "has_max_value", "type": TYPE_BOOL})
 	if has_max_value:
 		list.append({

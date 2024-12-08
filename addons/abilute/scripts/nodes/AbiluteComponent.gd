@@ -1,5 +1,7 @@
 @tool class_name AbiluteComponent extends Node
 
+signal attribute_changed(data: Attribute.ChangeData)
+
 @export var attributes: Array[Attribute]
 
 var effects: Array[Effect]:
@@ -48,7 +50,10 @@ func _register_attributes():
 	for attribute in attributes:
 		attribute.attribute_changed.connect(_pre_attribute_change)
 
+## Perform clamping of attribute base values
 func _pre_attribute_change(data: Attribute.ChangeData):
+	if not data.attribute.allow_negative:
+		data.new_value = max(0, data.new_value)
 	if data.attribute.has_max_value:
 		data.new_value = min(data.attribute._max_value, data.new_value)
 	_on_attribute_change(data)
@@ -60,13 +65,18 @@ func _on_attribute_change(data: Attribute.ChangeData):
 	pass
 
 func _post_attribute_change(data: Attribute.ChangeData):
+	attribute_changed.emit(data)
 	pass
 #endregion
 
 #region Effects
-# NOTE would it be sensible to have this as a static func in the Effect class?
 func add_effect(effect: BaseEffect):
-	if effects.map(func(e): return e.data).has(effect): return
+	var existing_effect = effects.filter(func(e): return e.data == effect).front()
+	if existing_effect: # FIXME this is quick and dirty
+		if existing_effect.data is DurationEffect and existing_effect.data.allow_reapply: # FIXME this quick and dirty
+			existing_effect.queue_free()
+		else:
+			return
 	var node = Effect.new(effect)
 	node.application_requested.connect(_on_effect_application_requested)
 	node.trigger_requested.connect(_on_effect_trigger_requested)

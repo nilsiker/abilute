@@ -16,6 +16,7 @@
 script = ExtResource("2_74jod")
 attribute = &"Health"
 base_value = 100.0
+allow_negative = null
 has_max_value = true
 _max_value = 100.0
 
@@ -23,19 +24,22 @@ _max_value = 100.0
 script = ExtResource("2_74jod")
 attribute = &"Stamina"
 base_value = 100.0
+allow_negative = false
 has_max_value = true
 _max_value = 60.0
 
 [sub_resource type="Resource" id="Resource_u631v"]
 script = ExtResource("2_74jod")
-attribute = null
+attribute = &"Health"
 base_value = 100.0
+allow_negative = null
 has_max_value = null
 
 [sub_resource type="Resource" id="Resource_67og2"]
 script = ExtResource("2_74jod")
-attribute = null
+attribute = &"Stamina"
 base_value = 100.0
+allow_negative = null
 has_max_value = null
 
 [node name="Test" type="Node2D"]

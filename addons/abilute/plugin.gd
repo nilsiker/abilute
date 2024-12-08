@@ -2,7 +2,7 @@
 class_name Abilute extends EditorPlugin
 
 const GROUP_NAME = "AbiluteComponents"
-const ATTRIBUTES_SETTING = "Abilute/AttributeSets"
+const ATTRIBUTES_SETTING = "Abilute/Attributes"
 
 static var ATTRIBUTE_PROPERTY: Dictionary:
 	get: return {

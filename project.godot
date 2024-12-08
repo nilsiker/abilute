@@ -10,7 +10,7 @@ config_version=5
 
 [Abilute]
 
-AttributeSets=[&"Health", &"Stamina", &"Mana"]
+Attributes=[&"Health", &"Stamina", &"Mana"]
 
 [application]
 

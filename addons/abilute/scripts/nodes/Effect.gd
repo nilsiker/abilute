@@ -22,7 +22,8 @@ func time_left() -> float:
 	if data is BaseEffect: return 0
 	elif data is DurationEffect: return $DurationTimer.time_left
 	else: return INF
-		
+	
+
 #region Effect Triggers
 func _trigger_instant():
 	_request_trigger()
