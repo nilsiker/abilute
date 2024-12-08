@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BaseEffect" load_steps=4 format=3 uid="uid://yrunrc8xkyfs"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_720gw"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="2_sjncg"]
+[ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/examples/effects/effect_curse.tres" id="3_fbk8h"]
+
+[resource]
+script = ExtResource("1_720gw")
+modifiers = Array[ExtResource("2_sjncg")]([])
+trigger_blocked_by = Array[ExtResource("1_720gw")]([])
+application_blocked_by = Array[ExtResource("1_720gw")]([])
+removes = Array[ExtResource("1_720gw")]([ExtResource("3_fbk8h")])
+success_effects = Array[ExtResource("1_720gw")]([])
+failure_effects = Array[ExtResource("1_720gw")]([])

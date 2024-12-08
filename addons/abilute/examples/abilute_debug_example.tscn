@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=16 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="1_oaaa8"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/Attribute.gd" id="2_74jod"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="4_w01lq"]
 [ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/examples/effects/effect_stamina_regen.tres" id="5_5ip4n"]
+[ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/examples/effects/effect_curse.tres" id="5_fwx5y"]
 [ext_resource type="Script" path="res://addons/abilute/examples/DebugInputs.gd" id="10_44yhw"]
 [ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/abilute/examples/effects/effect_instant_damage.tres" id="11_0xe4h"]
+[ext_resource type="Resource" uid="uid://yrunrc8xkyfs" path="res://addons/abilute/examples/effects/effect_purge.tres" id="11_fmnk7"]
 [ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/examples/effects/effect_fatigue.tres" id="12_45q61"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_hud.tscn" id="12_b4gti"]
 [ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/examples/effects/effect_heal.tres" id="13_uww45"]
@@ -42,6 +44,10 @@ attributes = Array[ExtResource("2_74jod")]([SubResource("Resource_ta5ge"), SubRe
 script = ExtResource("4_w01lq")
 data = ExtResource("5_5ip4n")
 
+[node name="Curse" type="Node" parent="Player/AbiluteComponent"]
+script = ExtResource("4_w01lq")
+data = ExtResource("5_fwx5y")
+
 [node name="Slime" type="Node" parent="."]
 
 [node name="AbiluteComponent" type="Node" parent="Slime"]
@@ -66,12 +72,14 @@ size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "F to damage
 G to fatigue
-H to heal"
+H to heal
+P to purge curse"
 horizontal_alignment = 1
 script = ExtResource("10_44yhw")
 target = NodePath("../../Player/AbiluteComponent")
 damage_effect = ExtResource("11_0xe4h")
 stamina_effect = ExtResource("12_45q61")
 heal_effect = ExtResource("13_uww45")
+purge_effect = ExtResource("11_fmnk7")
 
 [connection signal="ability_system_changed" from="AbiluteDebugHUD" to="AbiluteDebugHUD/DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]

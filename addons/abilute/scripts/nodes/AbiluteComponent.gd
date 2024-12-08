@@ -1,6 +1,5 @@
 class_name AbiluteComponent extends Node
 
-
 @export var attributes: Array[Attribute]
 
 var effects: Array[Effect]:
@@ -13,10 +12,6 @@ var effects: Array[Effect]:
 func _ready() -> void:
 	add_to_group(Abilute.GROUP_NAME)
 	_register_start_effects()
-
-func _process(delta: float) -> void:
-	print(get_attribute_base(Attribute.Kind.Stamina))
-	print(get_attribute_value(Attribute.Kind.Stamina))
 
 #region Attribute
 func get_attribute_base(kind: Attribute.Kind):
@@ -105,12 +100,14 @@ func _trigger_effect(effect: BaseEffect):
 					Modifier.Operation.Override:
 						attribute[0].base_value = modifier.magnitude
 						
-
+	for effect_to_remove in effect.removes:
+		_remove_effect(effect_to_remove)
 	for success_effect in effect.success_effects:
 		add_effect(success_effect)
 
-func _remove_effect(effect: BaseEffect):
-	print("TODO implement effect removal (", effect.resource_name, ")")
+func _remove_effect(effect_to_remove: BaseEffect):
+	for node in effects.filter(func(e): return e.data == effect_to_remove):
+		node.queue_free()
 
 func _on_effect_application_requested(effect: BaseEffect):
 	for blocking_effect in effect.application_blocked_by:

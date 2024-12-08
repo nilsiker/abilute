@@ -43,11 +43,13 @@ func _add_attribute_debug_container(attribute: Attribute):
 	_attribute_container.add_child(node)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("cycle_ability_system_up"):
+	if event is not InputEventKey or event.is_released(): return
+
+	if event.keycode == KEY_PAGEUP:
 		_system_index += 1
 		_system_index %= get_tree().get_node_count_in_group(Abilute.GROUP_NAME)
 		_update_selected_system()
-	elif event.is_action_pressed("cycle_ability_system_down"):
+	elif event.keycode == KEY_PAGEDOWN:
 		_system_index -= 1
 		_system_index %= get_tree().get_node_count_in_group(Abilute.GROUP_NAME)
 		_update_selected_system()
