@@ -6,14 +6,15 @@
 
 [sub_resource type="Resource" id="Resource_kbcxn"]
 script = ExtResource("1_rdwkb")
-attribute = 1
 operation = 0
 magnitude = -10.0
+attribute = &"Stamina"
 
 [resource]
 script = ExtResource("2_pip17")
 modifiers = Array[ExtResource("1_rdwkb")]([SubResource("Resource_kbcxn")])
 trigger_blocked_by = Array[ExtResource("2_pip17")]([])
 application_blocked_by = Array[ExtResource("2_pip17")]([])
+removes = Array[ExtResource("2_pip17")]([])
 success_effects = Array[ExtResource("2_pip17")]([ExtResource("3_j73fn")])
 failure_effects = Array[ExtResource("2_pip17")]([])

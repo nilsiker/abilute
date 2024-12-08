@@ -5,14 +5,15 @@
 
 [sub_resource type="Resource" id="Resource_6wt6t"]
 script = ExtResource("1_7ecau")
-attribute = 0
 operation = 0
 magnitude = -10.0
+attribute = &"Health"
 
 [resource]
 script = ExtResource("1_cfwqx")
 modifiers = Array[ExtResource("1_7ecau")]([SubResource("Resource_6wt6t")])
 trigger_blocked_by = Array[ExtResource("1_cfwqx")]([])
 application_blocked_by = Array[ExtResource("1_cfwqx")]([])
+removes = Array[ExtResource("1_cfwqx")]([])
 success_effects = Array[ExtResource("1_cfwqx")]([])
 failure_effects = Array[ExtResource("1_cfwqx")]([])

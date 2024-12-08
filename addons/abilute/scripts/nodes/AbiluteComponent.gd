@@ -1,4 +1,4 @@
-class_name AbiluteComponent extends Node
+@tool class_name AbiluteComponent extends Node
 
 @export var attributes: Array[Attribute]
 
@@ -7,29 +7,31 @@ var effects: Array[Effect]:
 		var array: Array[Effect]
 		array.assign(find_children("*", "Effect", true, false))
 		return array
+	
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group(Abilute.GROUP_NAME)
+	_register_attributes()
 	_register_start_effects()
 
 #region Attribute
-func get_attribute_base(kind: Attribute.Kind):
-	var candidates = attributes.filter(func(c): return c.kind == kind)
+func get_attribute_base(name: StringName):
+	var candidates = attributes.filter(func(c): return c.name == name)
 	if candidates.size() > 0:
 		return candidates[0].base_value
 	else:
-		push_warning("no attribute of kind {0} found on {1}".format([Attribute.str(kind), get_parent().name]))
+		push_warning("no attribute of kind {0} found on {1}".format([name, get_parent().name]))
 		return -1
 
 
 # NOTE cache if too expensive
-func get_attribute_value(kind: Attribute.Kind):
-	var candidates = attributes.filter(func(c): return c.kind == kind)
+func get_attribute_value(name: StringName):
+	var candidates = attributes.filter(func(c): return c.name == name)
 	if candidates.size() > 0:
 		var value = candidates[0].base_value
 		for effect in find_children("*", "Effect", true, false):
-			for modifier in effect.data.modifiers.filter(func(m): m.attribute == kind):
+			for modifier in effect.data.modifiers.filter(func(m): m.attribute == name):
 				match modifier.operation:
 					Modifier.Operation.Add:
 						value += modifier.magnitude
@@ -39,16 +41,32 @@ func get_attribute_value(kind: Attribute.Kind):
 						value = modifier.magnitude
 		return value
 	else:
-		push_warning("no attribute of kind {0} found on {1}".format([Attribute.str(kind), get_parent().name]))
+		push_warning("no attribute of kind {0} found on {1}".format([name, get_parent().name]))
 		return -1
 
-func _pre_attribute_change(AttributeChange):
+func _register_attributes():
+	for attribute in attributes:
+		attribute.attribute_changed.connect(_pre_attribute_change)
+
+func _pre_attribute_change(data: Attribute.ChangeData):
+	if data.attribute.has_max_value:
+		data.new_value = min(data.attribute._max_value, data.new_value)
+	_on_attribute_change(data)
+
+func _on_attribute_change(data: Attribute.ChangeData):
+	var index = attributes.find(data.attribute)
+	if index != -1:
+		attributes[index].set_base_value_override(data.new_value)
+	pass
+
+func _post_attribute_change(data: Attribute.ChangeData):
 	pass
 #endregion
 
 #region Effects
 # NOTE would it be sensible to have this as a static func in the Effect class?
 func add_effect(effect: BaseEffect):
+	if effects.map(func(e): return e.data).has(effect): return
 	var node = Effect.new(effect)
 	node.application_requested.connect(_on_effect_application_requested)
 	node.trigger_requested.connect(_on_effect_trigger_requested)
@@ -68,7 +86,7 @@ func _apply_effect(effect: BaseEffect):
 func _trigger_effect(effect: BaseEffect):
 	if effect is InfiniteEffect:
 		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.kind == modifier.attribute)
+			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
 			if attribute.size() > 0:
 				match modifier.operation:
 					Modifier.Operation.Add:
@@ -79,7 +97,7 @@ func _trigger_effect(effect: BaseEffect):
 						attribute[0].base_value = modifier.magnitude
 	elif effect is DurationEffect:
 		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.kind == modifier.attribute)
+			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
 			if attribute.size() > 0:
 				match modifier.operation:
 					Modifier.Operation.Add:
@@ -90,7 +108,7 @@ func _trigger_effect(effect: BaseEffect):
 						attribute[0].base_value = modifier.magnitude
 	else: # BaseEffects are instant effects
 		for modifier in effect.modifiers:
-			var attribute = attributes.filter(func(a): return a.kind == modifier.attribute)
+			var attribute = attributes.filter(func(a): return a.attribute == modifier.attribute)
 			if attribute.size() > 0:
 				match modifier.operation:
 					Modifier.Operation.Add:

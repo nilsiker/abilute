@@ -7,15 +7,16 @@
 
 [sub_resource type="Resource" id="Resource_nveew"]
 script = ExtResource("2_f6xs7")
-attribute = 1
 operation = 0
 magnitude = 1.0
+attribute = &"Stamina"
 
 [resource]
 script = ExtResource("3_smkc7")
-period = 0.25
+period = 0.1
 modifiers = Array[ExtResource("2_f6xs7")]([SubResource("Resource_nveew")])
 trigger_blocked_by = Array[ExtResource("1_bealf")]([ExtResource("4_olw07")])
 application_blocked_by = Array[ExtResource("1_bealf")]([])
+removes = Array[ExtResource("1_bealf")]([])
 success_effects = Array[ExtResource("1_bealf")]([])
 failure_effects = Array[ExtResource("1_bealf")]([])

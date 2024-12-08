@@ -8,13 +8,9 @@
 
 config_version=5
 
-[AbSys]
+[Abilute]
 
-Attributes=["Health", "Stamina", "Mana"]
-
-[AbilitySystem]
-
-attributes=["Health", "Stamina", "Mana"]
+AttributeSets=[&"Health", &"Stamina", &"Mana"]
 
 [application]
 
