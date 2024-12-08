@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="InfiniteEffect" load_steps=6 format=3 uid="uid://6cc0m830hwva"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_bealf"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="2_f6xs7"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/InfiniteEffect.gd" id="3_smkc7"]
+[ext_resource type="Resource" uid="uid://b4svugorlo5mf" path="res://addons/abilute/examples/effects/effect_stamina_regen_block.tres" id="4_olw07"]
+
+[sub_resource type="Resource" id="Resource_nveew"]
+script = ExtResource("2_f6xs7")
+attribute = 1
+operation = 0
+magnitude = 1.0
+
+[resource]
+script = ExtResource("3_smkc7")
+period = 0.25
+modifiers = Array[ExtResource("2_f6xs7")]([SubResource("Resource_nveew")])
+trigger_blocked_by = Array[ExtResource("1_bealf")]([ExtResource("4_olw07")])
+application_blocked_by = Array[ExtResource("1_bealf")]([])
+success_effects = Array[ExtResource("1_bealf")]([])
+failure_effects = Array[ExtResource("1_bealf")]([])

@@ -1,10 +1,10 @@
 extends Label
 
 @export var target: AbilitySystem
-@export var damage_effect: EffectResource
-@export var stamina_effect: EffectResource
-@export var heal_effect: EffectResource
-@export var stamina_regen_block_effect: EffectResource
+@export var damage_effect: BaseEffect
+@export var stamina_effect: BaseEffect
+@export var heal_effect: BaseEffect
+@export var stamina_regen_block_effect: BaseEffect
 
 #region Overrides
 func _unhandled_input(event: InputEvent) -> void:

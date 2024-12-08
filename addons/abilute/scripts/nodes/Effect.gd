@@ -1,30 +1,27 @@
 class_name Effect extends Node
 
-@export var data: EffectResource
+@export var data: BaseEffect
 
 signal application_requested(effect: Effect)
 signal trigger_requested(effect: Effect)
 signal removal_requested(effect: Effect)
 
-
 #region Overrides
-func _init(resource: EffectResource = null):
+func _init(resource: BaseEffect = null):
 	data = resource
 	
-
+	
 func _ready() -> void:
 	data.resource_name = data.resource_path.split('/')[-1].split('.')[0]
-	match data.kind:
-		EffectResource.Kind.Instant: _trigger_instant()
-		EffectResource.Kind.Duration: _trigger_duration()
-		EffectResource.Kind.Infinite: _trigger_infinite()
+	if data is InfiniteEffect: _trigger_infinite()
+	elif data is DurationEffect: _trigger_duration()
+	else: _trigger_instant()
 #endregion
 
 func time_left() -> float:
-	match data.kind:
-		EffectResource.Kind.Duration: return $DurationTimer.time_left
-		EffectResource.Kind.Infinite: return INF
-		_:  return 0
+	if data is BaseEffect: return 0
+	elif data is DurationEffect: return $DurationTimer.time_left
+	else: return INF
 		
 #region Effect Triggers
 func _trigger_instant():

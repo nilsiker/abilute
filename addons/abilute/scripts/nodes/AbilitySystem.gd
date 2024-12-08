@@ -1,14 +1,9 @@
 class_name AbilitySystem extends Node
 
 
-var attributes: Array[Attribute]:
-	get:
-		# NOTE maybe cache this
-		var array: Array[Attribute]
-		array.assign(find_children("*", "Attribute", true, false))
-		return array
+@export var attributes: Array[AttributeResource]
 
-@export var effects: Array[Effect]:
+var effects: Array[Effect]:
 	get: 
 		var array: Array[Effect] 
 		array.assign(find_children("*", "Effect", true, false))
@@ -17,15 +12,17 @@ var attributes: Array[Attribute]:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	add_to_group("AbilitySystems")
+	_register_start_effects()
 
 
 # NOTE would it be sensible to have this as a static func in the Effect class?
-func add_effect(effect: EffectResource):
+func add_effect(effect: BaseEffect):
 	var node = Effect.new(effect)
 	node.application_requested.connect(_on_effect_application_requested)
 	node.trigger_requested.connect(_on_effect_trigger_requested)
 	node.removal_requested.connect(_on_effect_removal_requested)
 	add_child(node)
+
 
 func get_attribute_base(kind: AttributeResource.Kind):
 	var candidates = get_children().filter(func(c): return c is Attribute and c.data.kind == kind)
@@ -34,6 +31,7 @@ func get_attribute_base(kind: AttributeResource.Kind):
 	else:
 		push_warning("no attribute of kind {} found".format([Attribute.str(kind)]))
 		return -1
+
 
 # NOTE cache if too expensive
 func get_attribute_value(kind: AttributeResource.Kind):
@@ -54,34 +52,43 @@ func get_attribute_value(kind: AttributeResource.Kind):
 		push_warning("no attribute of kind {0} found on {1}".format([Attribute.str(kind), get_parent().name]))
 		return -1
 
-func _apply_effect(effect: EffectResource):
+
+func _register_start_effects():
+	for effect in effects:
+		effect.application_requested.connect(_on_effect_application_requested)
+		effect.trigger_requested.connect(_on_effect_trigger_requested)
+		effect.removal_requested.connect(_on_effect_removal_requested)
+
+
+func _apply_effect(effect: BaseEffect):
 	print("TODO handle on application logic for effects")
 
-func _trigger_effect(effect: EffectResource):
+func _trigger_effect(effect: BaseEffect):
 	for modifier in effect.modifiers:
-		var attribute_name = Attribute.str(modifier.attribute)
-		var attribute: Attribute = get_node(attribute_name) as Attribute
-		if attribute:
-			attribute.add(modifier.magnitude)
+		var attribute = attributes.filter(func(a): return a.kind == modifier.attribute)
+		if attribute.size() > 0:
+			attribute[0].base_value += modifier.magnitude
+			
 	for success_effect in effect.success_effects:
 		add_effect(success_effect)
 
-func _remove_effect(effect: EffectResource):
+func _remove_effect(effect: BaseEffect):
 	print("TODO implement effect removal (", effect.resource_name, ")")
 
 
 #region Signal handlers
-func _on_effect_application_requested(effect: EffectResource):
+func _on_effect_application_requested(effect: BaseEffect):
 	for blocking_effect in effect.application_blocked_by:
 		if effects.find(blocking_effect) > -1: return
 	_apply_effect(effect)
 
-func _on_effect_trigger_requested(effect: EffectResource):
+func _on_effect_trigger_requested(effect: BaseEffect):
 	for blocking_effect in effect.trigger_blocked_by:
-		print(effects)
 		if effects.map(func(e): return e.data).find(blocking_effect) > -1: return
 	_trigger_effect(effect)
 
-func _on_effect_removal_requested(effect: EffectResource):
+func _on_effect_removal_requested(effect: BaseEffect):
 	_remove_effect(effect)
 #endregion
+
+

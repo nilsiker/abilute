@@ -39,7 +39,7 @@ func _update_selected_system():
 	_inspected_label.text = "[b]{0} ({1})[/b]".format([_active_ability_system.name, _active_ability_system.get_parent().name])
 	_refresh_attribute_containers()
 
-func _add_attribute_debug_container(attribute: Attribute):
+func _add_attribute_debug_container(attribute: AttributeResource):
 	var node = DebugAttributeContainer.new(attribute)
 	_attribute_container.add_child(node)
 

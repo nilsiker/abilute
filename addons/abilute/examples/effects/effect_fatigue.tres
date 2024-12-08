@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="EffectResource" load_steps=5 format=3 uid="uid://jm1krkshnxrg"]
+[gd_resource type="Resource" script_class="BaseEffect" load_steps=5 format=3 uid="uid://jm1krkshnxrg"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="1_rdwkb"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/resources/EffectResource.gd" id="2_pip17"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="2_pip17"]
 [ext_resource type="Resource" uid="uid://b4svugorlo5mf" path="res://addons/abilute/examples/effects/effect_stamina_regen_block.tres" id="3_j73fn"]
 
 [sub_resource type="Resource" id="Resource_kbcxn"]
@@ -12,9 +12,8 @@ magnitude = -10.0
 
 [resource]
 script = ExtResource("2_pip17")
-kind = 0
 modifiers = Array[ExtResource("1_rdwkb")]([SubResource("Resource_kbcxn")])
-duration = 0.0
-period = 0.0
+trigger_blocked_by = Array[ExtResource("2_pip17")]([])
+application_blocked_by = Array[ExtResource("2_pip17")]([])
 success_effects = Array[ExtResource("2_pip17")]([ExtResource("3_j73fn")])
 failure_effects = Array[ExtResource("2_pip17")]([])

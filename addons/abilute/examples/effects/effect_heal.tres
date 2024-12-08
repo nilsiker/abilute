@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="DurationEffect" load_steps=5 format=3 uid="uid://blyexkickh8v5"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_hmi77"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/Modifier.gd" id="1_op03n"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/DurationEffect.gd" id="3_82dok"]
+
+[sub_resource type="Resource" id="Resource_rqxv5"]
+script = ExtResource("1_op03n")
+attribute = 0
+operation = 0
+magnitude = 1.0
+
+[resource]
+script = ExtResource("3_82dok")
+duration = 3.0
+period = 0.25
+modifiers = Array[ExtResource("1_op03n")]([SubResource("Resource_rqxv5")])
+trigger_blocked_by = Array[ExtResource("1_hmi77")]([])
+application_blocked_by = Array[ExtResource("1_hmi77")]([])
+success_effects = Array[ExtResource("1_hmi77")]([])
+failure_effects = Array[ExtResource("1_hmi77")]([])
