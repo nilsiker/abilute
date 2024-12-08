@@ -14,7 +14,6 @@ static var ATTRIBUTE_PROPERTY: Dictionary:
 	}
 
 static var MAX_ATTRIBUTE_PROPERTY: Dictionary:
-	
 	get:
 		var options: Array = ProjectSettings.get(Abilute.ATTRIBUTES_SETTING)
 		var hint_string = ATTRIBUTE_NONE + "," + ",".join(options)
