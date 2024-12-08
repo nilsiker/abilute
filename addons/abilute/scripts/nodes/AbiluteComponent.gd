@@ -18,20 +18,21 @@ func _ready() -> void:
 	_register_start_effects()
 
 #region Attribute
-func get_attribute_base(name: StringName):
-	var candidates = attributes.filter(func(c): return c.name == name)
-	if candidates.size() > 0:
-		return candidates[0].base_value
+
+func get_attribute_base(attribute: StringName):
+	var found_attribute = attributes.filter(func(c): return c.attribute == attribute).front()
+	if found_attribute:
+		return found_attribute.base_value
 	else:
 		push_warning("no attribute of kind {0} found on {1}".format([name, get_parent().name]))
 		return -1
 
 
 # NOTE cache if too expensive
-func get_attribute_value(name: StringName):
-	var candidates = attributes.filter(func(c): return c.name == name)
-	if candidates.size() > 0:
-		var value = candidates[0].base_value
+func get_attribute_value(attribute: StringName):
+	var found_attribute = attributes.filter(func(c): return c.attribute == attribute).front()
+	if found_attribute:
+		var value = found_attribute.base_value
 		for effect in find_children("*", "Effect", true, false):
 			for modifier in effect.data.modifiers.filter(func(m): m.attribute == name):
 				match modifier.operation:
@@ -54,8 +55,9 @@ func _register_attributes():
 func _pre_attribute_change(data: Attribute.ChangeData):
 	if not data.attribute.allow_negative:
 		data.new_value = max(0, data.new_value)
-	if data.attribute.has_max_value:
-		data.new_value = min(data.attribute._max_value, data.new_value)
+	if data.attribute.max_attribute != Abilute.ATTRIBUTE_NONE:
+		var max_value = get_attribute_value(data.attribute.max_attribute)
+		data.new_value = min(max_value, data.new_value)
 	_on_attribute_change(data)
 
 func _on_attribute_change(data: Attribute.ChangeData):
