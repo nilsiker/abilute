@@ -1,6 +1,7 @@
-[gd_scene load_steps=23 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=24 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="1_31wan"]
+[ext_resource type="Script" path="res://addons/abilute/example/abilities/JumpAbility.gd" id="2_propd"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/AttributeData.gd" id="2_snofl"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="3_esj0i"]
 [ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/example/effects/effect_stamina_regen.tres" id="4_wjcb1"]
@@ -15,32 +16,32 @@
 [ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/example/effects/effect_heal.tres" id="11_vdwnl"]
 [ext_resource type="Resource" uid="uid://yrunrc8xkyfs" path="res://addons/abilute/example/effects/effect_purge.tres" id="12_dqj5b"]
 
-[sub_resource type="Resource" id="Resource_cpej0"]
+[sub_resource type="Resource" id="Resource_jyio6"]
 script = ExtResource("2_snofl")
 attribute = &"Health"
 max_attribute = &"HealthMax"
 base_value = 100.0
 allow_negative = false
 
-[sub_resource type="Resource" id="Resource_f87tl"]
+[sub_resource type="Resource" id="Resource_7f854"]
 script = ExtResource("2_snofl")
 attribute = &"HealthMax"
 max_attribute = &"None"
-base_value = 120.0
+base_value = 100.0
 allow_negative = false
 
-[sub_resource type="Resource" id="Resource_0j4vn"]
+[sub_resource type="Resource" id="Resource_4uo2b"]
 script = ExtResource("2_snofl")
 attribute = &"Stamina"
 max_attribute = &"StaminaMax"
 base_value = 100.0
 allow_negative = false
 
-[sub_resource type="Resource" id="Resource_c8wms"]
+[sub_resource type="Resource" id="Resource_8w1nf"]
 script = ExtResource("2_snofl")
 attribute = &"StaminaMax"
 max_attribute = &"None"
-base_value = 200.0
+base_value = 100.0
 allow_negative = false
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
@@ -63,9 +64,9 @@ allow_negative = false
 
 [node name="Example" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
 [node name="World" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="World"]
 
 [node name="TileMapLayer" type="TileMapLayer" parent="World"]
 
@@ -78,7 +79,7 @@ abilute = NodePath("AbiluteComponent")
 
 [node name="AbiluteComponent" type="Node" parent="World/Entities/Player"]
 script = ExtResource("1_31wan")
-attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_cpej0"), SubResource("Resource_f87tl"), SubResource("Resource_0j4vn"), SubResource("Resource_c8wms")])
+attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_jyio6"), SubResource("Resource_7f854"), SubResource("Resource_4uo2b"), SubResource("Resource_8w1nf")])
 
 [node name="InfiniteStaminaRegen" type="Node" parent="World/Entities/Player/AbiluteComponent"]
 script = ExtResource("3_esj0i")
@@ -91,6 +92,11 @@ data = ExtResource("5_c0kho")
 [node name="HealthBuff" type="Node" parent="World/Entities/Player/AbiluteComponent"]
 script = ExtResource("3_esj0i")
 data = ExtResource("6_fs56a")
+
+[node name="JumpAbility" type="Node" parent="World/Entities/Player/AbiluteComponent"]
+script = ExtResource("2_propd")
+action = &"ui_accept"
+cost_effect = ExtResource("10_0b6rj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Player"]
 shape = SubResource("RectangleShape2D_vrlpa")

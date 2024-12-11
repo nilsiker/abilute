@@ -61,6 +61,11 @@ func add_effect(effect: BaseEffect):
 	node.removal_requested.connect(_on_effect_removal_requested)
 	add_child(node)
 
+func can_afford_cost(effect: BaseEffect) -> bool:
+	return effect.modifiers.all(func(m: ModifierData):
+		return -m.magnitude <= get_attribute_value(m.attribute)
+	)
+
 func _register_start_effects():
 	for effect in effects:
 		effect.application_requested.connect(_on_effect_application_requested)
