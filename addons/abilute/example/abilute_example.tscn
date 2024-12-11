@@ -63,39 +63,6 @@ allow_negative = false
 
 [node name="Example" type="Node2D"]
 
-[node name="UI" type="CanvasLayer" parent="."]
-
-[node name="DebugUI" type="MarginContainer" parent="UI"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="AbiluteDebugHUD" parent="UI/DebugUI" instance=ExtResource("7_gm2n2")]
-layout_mode = 2
-
-[node name="DebugInputs" type="Label" parent="UI/DebugUI" node_paths=PackedStringArray("target")]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 8
-text = "F to damage
-G to fatigue
-H to heal
-P to purge curse
-B to apply health buff"
-script = ExtResource("8_5i0e1")
-target = NodePath("../../../World/Entities/Player/AbiluteComponent")
-damage_effect = ExtResource("9_xcr8v")
-stamina_effect = ExtResource("10_0b6rj")
-heal_effect = ExtResource("11_vdwnl")
-purge_effect = ExtResource("12_dqj5b")
-buff_effect = ExtResource("6_fs56a")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="World" type="Node" parent="."]
@@ -141,5 +108,38 @@ attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_u631v"), SubRe
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/TargetDummy"]
 shape = SubResource("RectangleShape2D_0viu3")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="DebugUI" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="AbiluteDebugHUD" parent="UI/DebugUI" instance=ExtResource("7_gm2n2")]
+layout_mode = 2
+
+[node name="DebugInputs" type="Label" parent="UI/DebugUI" node_paths=PackedStringArray("target")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "F to damage
+G to fatigue
+H to heal
+P to purge curse
+B to apply health buff"
+script = ExtResource("8_5i0e1")
+target = NodePath("../../../World/Entities/Player/AbiluteComponent")
+damage_effect = ExtResource("9_xcr8v")
+stamina_effect = ExtResource("10_0b6rj")
+heal_effect = ExtResource("11_vdwnl")
+purge_effect = ExtResource("12_dqj5b")
+buff_effect = ExtResource("6_fs56a")
 
 [connection signal="ability_system_changed" from="UI/DebugUI/AbiluteDebugHUD" to="UI/DebugUI/DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]
