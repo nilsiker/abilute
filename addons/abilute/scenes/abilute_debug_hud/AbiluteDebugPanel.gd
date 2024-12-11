@@ -1,4 +1,4 @@
-class_name AbiluteDebugHUD extends CanvasLayer
+class_name AbiluteDebugHUD extends VBoxContainer
 
 signal ability_system_changed(ability_system: AbiluteComponent)
 

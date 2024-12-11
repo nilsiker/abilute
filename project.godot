@@ -15,7 +15,7 @@ Attributes=[&"Health", &"HealthMax", &"Stamina", &"StaminaMax", &"Mana", &"ManaM
 [application]
 
 config/name="abilute"
-run/main_scene="res://addons/abilute/examples/abilute_debug_example.tscn"
+run/main_scene="res://addons/abilute/example/abilute_example.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 

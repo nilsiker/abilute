@@ -84,7 +84,7 @@ func _trigger_effect(effect: Effect):
 				attribute.add_modifier(Modifier.new(modifier, effect.tree_exited))
 
 	for effect_data in effect.data.removes:
-		var node = find_children("*", "Effect", true, false).filter(func(e): e.data == effect_data).front()
+		var node = find_children("*", "Effect", true, false).filter(func(e): return e.data == effect_data).front()
 		if node: _remove_effect(node)
 	for success_effect in effect.data.success_effects:
 		add_effect(success_effect)

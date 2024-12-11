@@ -78,6 +78,4 @@ func _request_trigger():
 
 func _request_removal():
 	removal_requested.emit(self)
-	queue_free()
-	# NOTE we free here because on data removal, we most likely always want to free the node also with potential timer children
 #endregion

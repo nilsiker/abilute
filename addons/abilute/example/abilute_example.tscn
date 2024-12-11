@@ -1,0 +1,145 @@
+[gd_scene load_steps=23 format=3 uid="uid://c75i7pwddvu28"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="1_31wan"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/AttributeData.gd" id="2_snofl"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="3_esj0i"]
+[ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/example/effects/effect_stamina_regen.tres" id="4_wjcb1"]
+[ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/example/effects/effect_curse.tres" id="5_c0kho"]
+[ext_resource type="Resource" uid="uid://da0y68ciclnhv" path="res://addons/abilute/example/effects/effect_health_buff.tres" id="6_fs56a"]
+[ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="7_5alnm"]
+[ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_panel.tscn" id="7_gm2n2"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/DebugInputs.gd" id="8_5i0e1"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/Player.gd" id="8_v4k4c"]
+[ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/abilute/example/effects/effect_instant_damage.tres" id="9_xcr8v"]
+[ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/example/effects/effect_fatigue.tres" id="10_0b6rj"]
+[ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/example/effects/effect_heal.tres" id="11_vdwnl"]
+[ext_resource type="Resource" uid="uid://yrunrc8xkyfs" path="res://addons/abilute/example/effects/effect_purge.tres" id="12_dqj5b"]
+
+[sub_resource type="Resource" id="Resource_cpej0"]
+script = ExtResource("2_snofl")
+attribute = &"Health"
+max_attribute = &"HealthMax"
+base_value = 100.0
+allow_negative = false
+
+[sub_resource type="Resource" id="Resource_f87tl"]
+script = ExtResource("2_snofl")
+attribute = &"HealthMax"
+max_attribute = &"None"
+base_value = 120.0
+allow_negative = false
+
+[sub_resource type="Resource" id="Resource_0j4vn"]
+script = ExtResource("2_snofl")
+attribute = &"Stamina"
+max_attribute = &"StaminaMax"
+base_value = 100.0
+allow_negative = false
+
+[sub_resource type="Resource" id="Resource_c8wms"]
+script = ExtResource("2_snofl")
+attribute = &"StaminaMax"
+max_attribute = &"None"
+base_value = 200.0
+allow_negative = false
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
+
+[sub_resource type="Resource" id="Resource_u631v"]
+script = ExtResource("2_snofl")
+attribute = &"Health"
+max_attribute = &"HealthMax"
+base_value = 100.0
+allow_negative = false
+
+[sub_resource type="Resource" id="Resource_3v25y"]
+script = ExtResource("2_snofl")
+attribute = &"HealthMax"
+max_attribute = &"None"
+base_value = 100.0
+allow_negative = false
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0viu3"]
+
+[node name="Example" type="Node2D"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="DebugUI" type="MarginContainer" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="AbiluteDebugHUD" parent="UI/DebugUI" instance=ExtResource("7_gm2n2")]
+layout_mode = 2
+
+[node name="DebugInputs" type="Label" parent="UI/DebugUI" node_paths=PackedStringArray("target")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+text = "F to damage
+G to fatigue
+H to heal
+P to purge curse
+B to apply health buff"
+script = ExtResource("8_5i0e1")
+target = NodePath("../../../World/Entities/Player/AbiluteComponent")
+damage_effect = ExtResource("9_xcr8v")
+stamina_effect = ExtResource("10_0b6rj")
+heal_effect = ExtResource("11_vdwnl")
+purge_effect = ExtResource("12_dqj5b")
+buff_effect = ExtResource("6_fs56a")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="World" type="Node" parent="."]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="World"]
+
+[node name="Entities" type="Node" parent="World"]
+
+[node name="Player" type="CharacterBody2D" parent="World/Entities" node_paths=PackedStringArray("abilute")]
+position = Vector2(300, 472)
+script = ExtResource("8_v4k4c")
+abilute = NodePath("AbiluteComponent")
+
+[node name="AbiluteComponent" type="Node" parent="World/Entities/Player"]
+script = ExtResource("1_31wan")
+attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_cpej0"), SubResource("Resource_f87tl"), SubResource("Resource_0j4vn"), SubResource("Resource_c8wms")])
+
+[node name="InfiniteStaminaRegen" type="Node" parent="World/Entities/Player/AbiluteComponent"]
+script = ExtResource("3_esj0i")
+data = ExtResource("4_wjcb1")
+
+[node name="Curse" type="Node" parent="World/Entities/Player/AbiluteComponent"]
+script = ExtResource("3_esj0i")
+data = ExtResource("5_c0kho")
+
+[node name="HealthBuff" type="Node" parent="World/Entities/Player/AbiluteComponent"]
+script = ExtResource("3_esj0i")
+data = ExtResource("6_fs56a")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Player"]
+shape = SubResource("RectangleShape2D_vrlpa")
+
+[node name="Sprite2D" type="Sprite2D" parent="World/Entities/Player"]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_5alnm")
+
+[node name="TargetDummy" type="StaticBody2D" parent="World/Entities"]
+position = Vector2(915, 484)
+
+[node name="AbiluteComponent" type="Node" parent="World/Entities/TargetDummy"]
+script = ExtResource("1_31wan")
+attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_u631v"), SubResource("Resource_3v25y")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/TargetDummy"]
+shape = SubResource("RectangleShape2D_0viu3")
+
+[connection signal="ability_system_changed" from="UI/DebugUI/AbiluteDebugHUD" to="UI/DebugUI/DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]

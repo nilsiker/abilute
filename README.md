@@ -24,10 +24,11 @@ namespace Godot {
 
 namespace Abilute {
     class AttributeChangeData {
+        attribute: StringName
         old_value: float
         new_value: float
     }
-    class AbilitySystem {
+    class AbiluteComponent {
         add_effect() bool
         get_attribute_base(EAttribute) float
         get_attribute_value(EAttribute) float
@@ -41,70 +42,93 @@ namespace Abilute {
         _post_attribute_change(AttributeChangeData)
     }
     class Attribute {
-        signal base_changed(float)
-        signal value_changed(float)
+        signal base_value_changed(AttributeChangeData)
+        signal value_changed(AttributeChangeData)
         
+        get_base_value() float
         get_value() float
-        get_base() float
-
+        ~ _init(AttributeData)
+        + init() void
+        + add_base_modifier(Modifier)
+        + add_modifier(Modifier)
+        - _on_modifier_tree_exited()
+        - _on_max_attribute_value_updated
     }
-    class AttributeResource {
+    class AttributeData {
+        _attribute: StringName
+        _max_attribute: StringName
         _base_value : float
+        _allow_negative: bool
     }
     class Effect {
-        signal application_requested(Effect)
-        signal trigger_requested(Effect)
-        signal removal_requested(Effect)
+        signal application_requested(BaseEffect)
+        signal trigger_requested(BaseEffect)
+        signal removal_requested(BaseEffect)
+        ~ _init(BaseEffect)
+        ~ _ready()
+        + time_left() float
+        - _trigger_instant()
+        - _trigger_duration()
+        - _trigger_infinite()
+        - _add_duration_timer
+        - _request_application()
+        - _request_trigger()
+        - _request_removal()
     }
-    class EffectResource
+    class BaseEffect {
+        + modifiers: ModifierData[]
+        + trigger_blocked_by: BaseEffect[]
+        + application_blocked_by: BaseEffect[]
+        + removes: BaseEffect[]
+        + success_effects: BaseEffect[]
+        + failure_effects: BaseEffect[]
+        + modifies_base() bool
+    }
+    class DurationEffect {
+        + duration : float
+        + period : float
+        + allow_reapply : bool
+    }
+    class InfiniteEffect {
+        + period : float   
+    }
     class Ability
-    class AbilityResource
+    class AbilityData
     class Modifier {
-        magnitude: float
+        - _data : ModifierData
+        ~ _init(ModifierData, Signal)
+        + modify(float) : float
     }
-    class EDuration {
-        <<enum>>
-        Instant,
-        Duration,
-        Infinite
+    class ModifierData {
+        + attribute : StringName
+        + operation : Operation
+        + magnitude : float
     }
-    class EOperation {
+    class Operation {
         <<enum>>
-        Add,
-        Multiply,
-        Override
-    }
-    class EAttribute {
-        <<enum>>
-        Health,
-        Stamina,
-        Mana
+        Add
     }
 }
 
 Attribute--|>Node
 Effect--|>Node
-AttributeResource--|>Resource
-EffectResource--|>Resource
+AttributeData--|>Resource
+BaseEffect--|>Resource
+DurationEffect--|>BaseEffect
+InfiniteEffect--|>BaseEffect
 
-AbilitySystem o-- Attribute: parents
-AbilitySystem o-- Effect: parents
-AbilitySystem o-- Ability: parents
+AbiluteComponent o-- Attribute: parents
+AbiluteComponent o-- Effect: parents
+Attribute o-- Modifier: parents
 
-Attribute-->AttributeResource
-Effect-->EffectResource
+Attribute-->AttributeData
+Effect-->BaseEffect
+Modifier --> ModifierData
 
-Ability-->AbilityResource
-AbilityResource o-- EffectResource
-Ability --> AbilitySystem: performs logic on
+BaseEffect o-- ModifierData
 
-Modifier --> EAttribute
-Modifier --> EOperation
-Modifier --> EDuration
-
-EffectResource o-- Modifier
-
-AbilitySystem --> Attribute: modifies
-AbilitySystem --> AttributeChangeData
+AbiluteComponent --> Modifier: instantiates
+AbiluteComponent --> Attribute: modifies base value
+AbiluteComponent --> AttributeChangeData
 
 ```

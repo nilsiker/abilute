@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfnqdcdaw88r8"]
+
+[ext_resource type="Script" path="res://addons/abilute/scenes/abilute_debug_hud/AbiluteDebugPanel.gd" id="1_2l05d"]
+[ext_resource type="PackedScene" uid="uid://3dg42tag6i8r" path="res://addons/abilute/scenes/debug_attribute_container/debug_attribute_container.tscn" id="2_s6flu"]
+
+[node name="AbiluteDebugPanel" type="VBoxContainer" node_paths=PackedStringArray("_attribute_container", "_effects", "_inspected_label")]
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 1147.0
+offset_bottom = 643.0
+script = ExtResource("1_2l05d")
+_attribute_container = NodePath("Sections/AttributesContainer/AttributeContainers")
+_effects = NodePath("Sections/EffectsContainer/EffectsValues")
+_inspected_label = NodePath("InspectingLabel")
+
+[node name="InspectingLabel" type="RichTextLabel" parent="."]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b]AbilitySystem (Debug_Example_Node)[/b]"
+fit_content = true
+
+[node name="Sections" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="AttributesContainer" type="VBoxContainer" parent="Sections"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="AttributesLabel" type="RichTextLabel" parent="Sections/AttributesContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b][u]Attributes[/u][/b]"
+fit_content = true
+
+[node name="AttributeContainers" type="VBoxContainer" parent="Sections/AttributesContainer"]
+layout_mode = 2
+
+[node name="X" parent="Sections/AttributesContainer/AttributeContainers" instance=ExtResource("2_s6flu")]
+layout_mode = 2
+
+[node name="Y" parent="Sections/AttributesContainer/AttributeContainers" instance=ExtResource("2_s6flu")]
+layout_mode = 2
+
+[node name="EffectsContainer" type="VBoxContainer" parent="Sections"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Effects" type="RichTextLabel" parent="Sections/EffectsContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[b][u]Effects[/u][/b]"
+fit_content = true
+
+[node name="EffectsValues" type="Label" parent="Sections/EffectsContainer"]
+layout_mode = 2

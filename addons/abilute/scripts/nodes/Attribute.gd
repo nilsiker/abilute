@@ -56,10 +56,11 @@ func add_modifier(modifier: Modifier):
 #endregion
 
 #region Private
-func _get_modifiers() -> Array[ModifierData]:
-	var array: Array[ModifierData] = []
-	array.assign(find_children("*", "ModifierData", true, false).map(func(n): return n.data))
-	return array
+func _clamp_base_value():
+	if _max:
+		_data.base_value = min(_data.base_value, _max.value)
+	if not _data.allow_negative:
+		_data.base_value = max(_data.base_value, 0)
 #endregion
 
 #region Signal handlers
@@ -70,10 +71,12 @@ func _on_modifier_tree_exited():
 
 func _on_max_attribute_value_updated(data: Attribute.ChangeData):
 	 # NOTE this gives a faulty "old value", but its not really used
+	_clamp_base_value()
 	var lying_data = Attribute.ChangeData.new(_data, value, value)
 	value_changed.emit(lying_data)
-
-
+	var lying_base_data = Attribute.ChangeData.new(_data, base_value, base_value)
+	value_changed.emit(lying_data)
+	base_value_changed.emit(lying_base_data)
 #endregion
 
 #region Structs

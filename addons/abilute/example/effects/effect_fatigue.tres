@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/ModifierData.gd" id="1_rdwkb"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="2_pip17"]
-[ext_resource type="Resource" uid="uid://b4svugorlo5mf" path="res://addons/abilute/examples/effects/effect_stamina_regen_block.tres" id="3_j73fn"]
+[ext_resource type="Resource" uid="uid://b4svugorlo5mf" path="res://addons/abilute/example/effects/effect_stamina_regen_block.tres" id="3_j73fn"]
 
 [sub_resource type="Resource" id="Resource_kbcxn"]
 script = ExtResource("1_rdwkb")
