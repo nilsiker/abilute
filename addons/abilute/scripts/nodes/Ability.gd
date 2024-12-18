@@ -14,6 +14,7 @@ func _ready() -> void:
 
 
 func can_activate() -> bool:
+	if not cost_effect: return true
 	return _owner.can_afford_cost(cost_effect)
 
 
@@ -24,3 +25,7 @@ func try_activate() -> bool:
 
 func apply_cost():
 	_owner.add_effect(cost_effect)
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed(_action):
+		try_activate()

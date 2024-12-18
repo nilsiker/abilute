@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://cseygtwlpj8hb"]
+
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/Fireball.gd" id="1_dxcwy"]
+
+[sub_resource type="Curve" id="Curve_t8gqw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_v5jdk"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.568889, 0.693333, 0.782222)
+colors = PackedColorArray(1, 0, 0, 1, 0.815041, 0.405945, 1.92523e-07, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_frfh8"]
+radius = 8.06226
+
+[node name="Fireball" type="Area2D"]
+collision_mask = 2
+script = ExtResource("1_dxcwy")
+
+[node name="FireballParticles" type="CPUParticles2D" parent="."]
+amount = 120
+local_coords = true
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+angle_max = 720.0
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_t8gqw")
+color_initial_ramp = SubResource("Gradient_v5jdk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_frfh8")

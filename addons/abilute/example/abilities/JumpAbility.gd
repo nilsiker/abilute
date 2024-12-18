@@ -18,12 +18,6 @@ func try_activate() -> bool:
 	return false
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed(_action):
-		try_activate()
-
-
 func can_activate() -> bool:
 	if not super.can_activate(): return false
-
 	return _body.is_on_floor()

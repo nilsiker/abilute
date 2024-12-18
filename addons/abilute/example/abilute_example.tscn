@@ -97,8 +97,8 @@ add_on_enter = Array[ExtResource("8_cw28s")]([ExtResource("5_eieqs")])
 remove_on_exit = Array[ExtResource("8_cw28s")]([ExtResource("5_eieqs")])
 
 [node name="Destructible" parent="World/Entities" instance=ExtResource("4_q46vs")]
-visible = false
-position = Vector2(770, 383)
+position = Vector2(822, 488)
+collision_layer = 3
 
 [node name="HealthBuffArea" parent="World/Entities" instance=ExtResource("9_56yvo")]
 
