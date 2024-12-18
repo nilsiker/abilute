@@ -80,7 +80,8 @@ func _register_start_effects():
 
 func _apply_effect(effect: Effect):
 	print("todo apply effect logic")
-	_trigger_effect(effect)
+	if effect.data is BaseEffect:
+		_trigger_effect(effect)
 
 ## Effect trigger effects always modify base value
 func _trigger_effect(effect: Effect):

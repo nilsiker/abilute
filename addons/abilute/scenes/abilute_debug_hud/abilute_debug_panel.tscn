@@ -54,3 +54,11 @@ fit_content = true
 
 [node name="EffectsValues" type="Label" parent="Sections/EffectsContainer"]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 10
+text = "[PgUp] Next
+[PgDn] Previous"
+vertical_alignment = 2

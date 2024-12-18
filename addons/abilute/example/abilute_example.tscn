@@ -117,13 +117,15 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
+[node name="Label" type="Label" parent="UI/Margins"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "[TAB] Toggle Debug HUD"
+
 [node name="AbiluteDebugHUD" parent="UI/Margins" instance=ExtResource("7_gm2n2")]
 visible = false
 layout_mode = 2
-
-[node name="Label" type="Label" parent="UI/Margins/AbiluteDebugHUD"]
-layout_mode = 2
-text = "[TAB] Toggle Debug HUD"
 
 [node name="AttributeUI" type="VBoxContainer" parent="UI/Margins"]
 layout_mode = 2
@@ -191,10 +193,6 @@ text = "/"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "0"
-
-[node name="Label" type="Label" parent="UI/Margins/AttributeUI"]
-layout_mode = 2
-text = "[TAB] Toggle Debug HUD"
 
 [node name="GameOver" type="PanelContainer" parent="UI"]
 visible = false
