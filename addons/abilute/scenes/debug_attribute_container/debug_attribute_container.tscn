@@ -2,13 +2,21 @@
 
 [ext_resource type="Script" path="res://addons/abilute/scenes/debug_attribute_container/DebugAttributeContainer.gd" id="1_vllva"]
 
-[node name="DebugAttributeContainer" type="HBoxContainer"]
+[node name="DebugAttributeContainer" type="HBoxContainer" node_paths=PackedStringArray("_name", "_value", "_base_value")]
+theme_override_constants/separation = 10
 script = ExtResource("1_vllva")
+_name = NodePath("Name")
+_value = NodePath("Value")
+_base_value = NodePath("BaseValue")
 
-[node name="Label" type="Label" parent="."]
+[node name="Name" type="Label" parent="."]
 layout_mode = 2
 text = "Health"
 
 [node name="Value" type="Label" parent="."]
+layout_mode = 2
+text = "100"
+
+[node name="BaseValue" type="Label" parent="."]
 layout_mode = 2
 text = "100"

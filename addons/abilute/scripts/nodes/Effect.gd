@@ -13,15 +13,17 @@ func _init(resource: BaseEffect = null):
 	
 func _ready() -> void:
 	data.resource_name = data.resource_path.split('/')[-1].split('.')[0]
+	name = data.resource_name
 	if data is InfiniteEffect: _trigger_infinite()
 	elif data is DurationEffect: _trigger_duration()
 	else: _trigger_instant()
 #endregion
 
 func time_left() -> float:
-	if data is BaseEffect: return 0
-	elif data is DurationEffect: return $DurationTimer.time_left
-	else: return INF
+	if data is DurationEffect:
+		return $DurationTimer.time_left
+	elif data is InfiniteEffect: return INF
+	else: return 0.0
 	
 
 #region Effect Triggers

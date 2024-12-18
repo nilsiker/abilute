@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://c7bq8jhmx0xg5"]
+
+[ext_resource type="Script" path="res://addons/abilute/scenes/debug_effect_container/DebugEffectContainer.gd" id="1_er8wq"]
+
+[node name="DebugEffectContainer" type="HBoxContainer" node_paths=PackedStringArray("_name", "_duration")]
+theme_override_constants/separation = 10
+script = ExtResource("1_er8wq")
+_name = NodePath("Name")
+_duration = NodePath("Duration")
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 2
+text = "Effect X"
+
+[node name="Duration" type="Label" parent="."]
+layout_mode = 2
+text = "(3.4s)"

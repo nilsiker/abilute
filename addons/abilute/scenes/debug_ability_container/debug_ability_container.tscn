@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcj72mf8q621u"]
+
+[ext_resource type="Script" path="res://addons/abilute/scenes/debug_ability_container/DebugAbilityContainer.gd" id="1_x4uub"]
+
+[node name="AbilityContainer" type="HBoxContainer"]
+theme_override_constants/separation = 10
+script = ExtResource("1_x4uub")
+
+[node name="AbilityName" type="Label" parent="."]
+layout_mode = 2
+text = "Ability X"
+
+[node name="AbilityCooldown" type="Label" parent="."]
+layout_mode = 2
+text = "(10.2s)"
