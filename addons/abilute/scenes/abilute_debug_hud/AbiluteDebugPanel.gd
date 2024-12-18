@@ -87,6 +87,7 @@ func _update_selected_system():
 
 	_active = get_tree().get_nodes_in_group(Abilute.GROUP_NAME)[_system_index]
 	_active.effect_added.connect(_on_effect_added)
+	_active.ability_granted.connect(_on_ability_added)
 
 	_inspected_label.text = "[b]{1} ({0})[/b]".format([_active.name, _active.get_parent().name])
 	_refresh_attributes()
@@ -97,6 +98,6 @@ func _update_selected_system():
 #region Signal handlers
 func _on_effect_added(effect: Effect):
 	_add_effect(effect)
-func _on_ability_added(effect: Effect):
-	_add_effect(effect)
+func _on_ability_added(ability: Ability):
+	_add_ability(ability)
 #endregion

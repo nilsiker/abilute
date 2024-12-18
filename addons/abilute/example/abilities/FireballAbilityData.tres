@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3 uid="uid://cg212drubgl8j"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/AbilityData.gd" id="1_ppycc"]
+
+[resource]
+resource_name = "Fireball"
+script = ExtResource("1_ppycc")
+action = &"attack"

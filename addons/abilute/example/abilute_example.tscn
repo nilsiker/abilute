@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=28 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/AbiluteExample.gd" id="1_8umbl"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/PlayerChannel.gd" id="2_es6kc"]
@@ -9,7 +9,9 @@
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/EffectArea.gd" id="4_lotl7"]
 [ext_resource type="PackedScene" uid="uid://jbtmx6wc8kci" path="res://addons/abilute/example/scenes/destructible/destructible.tscn" id="4_q46vs"]
 [ext_resource type="Resource" uid="uid://c0q5ohkpdx8hi" path="res://addons/abilute/example/effects/effect_poison.tres" id="5_eieqs"]
+[ext_resource type="PackedScene" uid="uid://2jevjsjxtrnt" path="res://addons/abilute/example/scenes/abilities/fireball_pickup.tscn" id="6_4ycrs"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="7_5alnm"]
+[ext_resource type="Script" path="res://addons/abilute/example/scenes/abilities/FireballPickup.gd" id="7_bipj8"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_panel.tscn" id="7_gm2n2"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/AttributeBar.gd" id="7_nhkhw"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="8_cw28s"]
@@ -87,6 +89,9 @@ script = ExtResource("3_c8skw")
 shape = SubResource("CircleShape2D_8ypx7")
 
 [node name="Entities" type="Node" parent="World"]
+
+[node name="FireballPickup" parent="World/Entities" instance=ExtResource("6_4ycrs")]
+script = ExtResource("7_bipj8")
 
 [node name="Player" parent="World/Entities" instance=ExtResource("2_law54")]
 position = Vector2(89, 487)
