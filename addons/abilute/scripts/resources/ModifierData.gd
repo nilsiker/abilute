@@ -3,6 +3,8 @@ class_name ModifierData extends Resource
 
 enum Operation {
 	Add = 1,
+	Multiply = 2,
+	Set = 3
 }
 
 var attribute: StringName

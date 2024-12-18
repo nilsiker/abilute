@@ -1,123 +1,112 @@
 [gd_scene load_steps=24 format=3 uid="uid://c75i7pwddvu28"]
 
-[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="1_31wan"]
-[ext_resource type="Script" path="res://addons/abilute/example/abilities/JumpAbility.gd" id="2_propd"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/resources/AttributeData.gd" id="2_snofl"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="3_esj0i"]
-[ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/example/effects/effect_stamina_regen.tres" id="4_wjcb1"]
-[ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/example/effects/effect_curse.tres" id="5_c0kho"]
-[ext_resource type="Resource" uid="uid://da0y68ciclnhv" path="res://addons/abilute/example/effects/effect_health_buff.tres" id="6_fs56a"]
+[ext_resource type="Script" path="res://addons/abilute/example/AbiluteExample.gd" id="1_8umbl"]
+[ext_resource type="PackedScene" uid="uid://uujvk48k4pxt" path="res://addons/abilute/example/scenes/player/example_player.tscn" id="2_law54"]
+[ext_resource type="PackedScene" uid="uid://bosfar2dkeg3v" path="res://addons/abilute/example/scenes/static/obstacle.tscn" id="3_4ly8q"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/AreaLabel.gd" id="3_c8skw"]
+[ext_resource type="PackedScene" uid="uid://dc0pi13x341dx" path="res://addons/abilute/example/scenes/areas/swamp_area.tscn" id="3_tcxu7"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/EffectArea.gd" id="4_lotl7"]
+[ext_resource type="PackedScene" uid="uid://jbtmx6wc8kci" path="res://addons/abilute/example/scenes/destructible/destructible.tscn" id="4_q46vs"]
+[ext_resource type="Resource" uid="uid://dr3yalfk03x00" path="res://addons/abilute/example/effects/effect_poison.tres" id="5_eieqs"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="7_5alnm"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_panel.tscn" id="7_gm2n2"]
-[ext_resource type="Script" path="res://addons/abilute/example/scripts/DebugInputs.gd" id="8_5i0e1"]
-[ext_resource type="Script" path="res://addons/abilute/example/scripts/Player.gd" id="8_v4k4c"]
-[ext_resource type="Resource" uid="uid://ci8nlk0317mqd" path="res://addons/abilute/example/effects/effect_instant_damage.tres" id="9_xcr8v"]
-[ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/example/effects/effect_fatigue.tres" id="10_0b6rj"]
-[ext_resource type="Resource" uid="uid://blyexkickh8v5" path="res://addons/abilute/example/effects/effect_heal.tres" id="11_vdwnl"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/AttributeBar.gd" id="7_nhkhw"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="8_cw28s"]
+[ext_resource type="PackedScene" uid="uid://deocpaw372k6i" path="res://addons/abilute/example/scenes/areas/health_buff_area.tscn" id="9_56yvo"]
+[ext_resource type="Script" path="res://addons/abilute/example/UI.gd" id="9_i0lmx"]
+[ext_resource type="Resource" uid="uid://51w2s4mwhc11" path="res://addons/abilute/example/effects/effect_health_regen.tres" id="10_wao48"]
+[ext_resource type="PackedScene" uid="uid://14medwhkjlf4" path="res://addons/abilute/example/scenes/areas/purge_area.tscn" id="11_af4gq"]
 [ext_resource type="Resource" uid="uid://yrunrc8xkyfs" path="res://addons/abilute/example/effects/effect_purge.tres" id="12_dqj5b"]
 
-[sub_resource type="Resource" id="Resource_jyio6"]
-script = ExtResource("2_snofl")
-attribute = &"Health"
-max_attribute = &"HealthMax"
-base_value = 100.0
-allow_negative = false
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_dceyj"]
 
-[sub_resource type="Resource" id="Resource_7f854"]
-script = ExtResource("2_snofl")
-attribute = &"HealthMax"
-max_attribute = &"None"
-base_value = 100.0
-allow_negative = false
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w2eeq"]
 
-[sub_resource type="Resource" id="Resource_4uo2b"]
-script = ExtResource("2_snofl")
-attribute = &"Stamina"
-max_attribute = &"StaminaMax"
-base_value = 100.0
-allow_negative = false
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_e0gpp"]
 
-[sub_resource type="Resource" id="Resource_8w1nf"]
-script = ExtResource("2_snofl")
-attribute = &"StaminaMax"
-max_attribute = &"None"
-base_value = 100.0
-allow_negative = false
+[sub_resource type="CircleShape2D" id="CircleShape2D_8ypx7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arqwq"]
+bg_color = Color(0.677909, 0, 0.0541277, 1)
 
-[sub_resource type="Resource" id="Resource_u631v"]
-script = ExtResource("2_snofl")
-attribute = &"Health"
-max_attribute = &"HealthMax"
-base_value = 100.0
-allow_negative = false
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2pywf"]
+bg_color = Color(0.337017, 0.578507, 0, 1)
 
-[sub_resource type="Resource" id="Resource_3v25y"]
-script = ExtResource("2_snofl")
-attribute = &"HealthMax"
-max_attribute = &"None"
-base_value = 100.0
-allow_negative = false
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0viu3"]
-
-[node name="Example" type="Node2D"]
+[node name="AbiluteExample" type="Node2D"]
+script = ExtResource("1_8umbl")
 
 [node name="World" type="Node" parent="."]
+process_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="World"]
+position = Vector2(577, 322)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="World"]
+[node name="Boundaries" type="StaticBody2D" parent="World"]
+z_index = 1
+position = Vector2(601, 529)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Boundaries"]
+shape = SubResource("WorldBoundaryShape2D_dceyj")
+
+[node name="Sprite2D" type="Sprite2D" parent="World/Boundaries"]
+position = Vector2(-114.5, 506.5)
+scale = Vector2(15.1172, 7.91406)
+texture = ExtResource("7_5alnm")
+
+[node name="Left" type="CollisionShape2D" parent="World/Boundaries"]
+position = Vector2(-602, -167)
+rotation = 1.5708
+shape = SubResource("WorldBoundaryShape2D_w2eeq")
+
+[node name="Right" type="CollisionShape2D" parent="World/Boundaries"]
+position = Vector2(551, -175)
+rotation = -1.5708
+shape = SubResource("WorldBoundaryShape2D_e0gpp")
+
+[node name="Obstacle" parent="World" instance=ExtResource("3_4ly8q")]
+
+[node name="StartArea" type="Area2D" parent="World"]
+position = Vector2(71, 487)
+
+[node name="StartLabel" type="Label" parent="World/StartArea"]
+offset_left = -66.0
+offset_top = -87.0
+offset_right = 102.0
+offset_bottom = -38.0
+text = "An ancient curse
+slowly consumes you!"
+horizontal_alignment = 1
+script = ExtResource("3_c8skw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/StartArea"]
+shape = SubResource("CircleShape2D_8ypx7")
 
 [node name="Entities" type="Node" parent="World"]
 
-[node name="Player" type="CharacterBody2D" parent="World/Entities" node_paths=PackedStringArray("abilute")]
-position = Vector2(300, 472)
-script = ExtResource("8_v4k4c")
-abilute = NodePath("AbiluteComponent")
+[node name="Player" parent="World/Entities" instance=ExtResource("2_law54")]
+position = Vector2(89, 487)
 
-[node name="AbiluteComponent" type="Node" parent="World/Entities/Player"]
-script = ExtResource("1_31wan")
-attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_jyio6"), SubResource("Resource_7f854"), SubResource("Resource_4uo2b"), SubResource("Resource_8w1nf")])
+[node name="SwampArea" parent="World/Entities" instance=ExtResource("3_tcxu7")]
+script = ExtResource("4_lotl7")
+add_on_enter = Array[ExtResource("8_cw28s")]([ExtResource("5_eieqs")])
+remove_on_exit = Array[ExtResource("8_cw28s")]([ExtResource("5_eieqs")])
 
-[node name="InfiniteStaminaRegen" type="Node" parent="World/Entities/Player/AbiluteComponent"]
-script = ExtResource("3_esj0i")
-data = ExtResource("4_wjcb1")
+[node name="Destructible" parent="World/Entities" instance=ExtResource("4_q46vs")]
+visible = false
+position = Vector2(770, 383)
 
-[node name="Curse" type="Node" parent="World/Entities/Player/AbiluteComponent"]
-script = ExtResource("3_esj0i")
-data = ExtResource("5_c0kho")
+[node name="HealthBuffArea" parent="World/Entities" instance=ExtResource("9_56yvo")]
 
-[node name="HealthBuff" type="Node" parent="World/Entities/Player/AbiluteComponent"]
-script = ExtResource("3_esj0i")
-data = ExtResource("6_fs56a")
-
-[node name="JumpAbility" type="Node" parent="World/Entities/Player/AbiluteComponent"]
-script = ExtResource("2_propd")
-action = &"ui_accept"
-cost_effect = ExtResource("10_0b6rj")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/Player"]
-shape = SubResource("RectangleShape2D_vrlpa")
-
-[node name="Sprite2D" type="Sprite2D" parent="World/Entities/Player"]
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_5alnm")
-
-[node name="TargetDummy" type="StaticBody2D" parent="World/Entities"]
-position = Vector2(915, 484)
-
-[node name="AbiluteComponent" type="Node" parent="World/Entities/TargetDummy"]
-script = ExtResource("1_31wan")
-attributes = Array[ExtResource("2_snofl")]([SubResource("Resource_u631v"), SubResource("Resource_3v25y")])
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Entities/TargetDummy"]
-shape = SubResource("RectangleShape2D_0viu3")
+[node name="PurgeArea" parent="World/Entities" instance=ExtResource("11_af4gq")]
+position = Vector2(1000, 525)
+add_on_enter = Array[ExtResource("8_cw28s")]([ExtResource("12_dqj5b"), ExtResource("10_wao48")])
+remove_on_exit = Array[ExtResource("8_cw28s")]([ExtResource("10_wao48")])
 
 [node name="UI" type="CanvasLayer" parent="."]
+process_mode = 3
+script = ExtResource("9_i0lmx")
 
-[node name="DebugUI" type="MarginContainer" parent="UI"]
+[node name="Margins" type="MarginContainer" parent="UI"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -128,24 +117,116 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="AbiluteDebugHUD" parent="UI/DebugUI" instance=ExtResource("7_gm2n2")]
+[node name="AbiluteDebugHUD" parent="UI/Margins" instance=ExtResource("7_gm2n2")]
+visible = false
 layout_mode = 2
 
-[node name="DebugInputs" type="Label" parent="UI/DebugUI" node_paths=PackedStringArray("target")]
+[node name="Label" type="Label" parent="UI/Margins/AbiluteDebugHUD"]
+layout_mode = 2
+text = "[TAB] Toggle Debug HUD"
+
+[node name="AttributeUI" type="VBoxContainer" parent="UI/Margins"]
+layout_mode = 2
+
+[node name="HealthBar" type="ProgressBar" parent="UI/Margins/AttributeUI"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_arqwq")
+show_percentage = false
+script = ExtResource("7_nhkhw")
+
+[node name="Text" type="HBoxContainer" parent="UI/Margins/AttributeUI/HealthBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Value" type="Label" parent="UI/Margins/AttributeUI/HealthBar/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="Slash" type="Label" parent="UI/Margins/AttributeUI/HealthBar/Text"]
+layout_mode = 2
+text = "/"
+
+[node name="MaxValue" type="Label" parent="UI/Margins/AttributeUI/HealthBar/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="StaminaBar" type="ProgressBar" parent="UI/Margins/AttributeUI"]
+custom_minimum_size = Vector2(400, 40)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/fill = SubResource("StyleBoxFlat_2pywf")
+show_percentage = false
+script = ExtResource("7_nhkhw")
+
+[node name="Text" type="HBoxContainer" parent="UI/Margins/AttributeUI/StaminaBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Value" type="Label" parent="UI/Margins/AttributeUI/StaminaBar/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+horizontal_alignment = 2
+
+[node name="Slash" type="Label" parent="UI/Margins/AttributeUI/StaminaBar/Text"]
+layout_mode = 2
+text = "/"
+
+[node name="MaxValue" type="Label" parent="UI/Margins/AttributeUI/StaminaBar/Text"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+
+[node name="Label" type="Label" parent="UI/Margins/AttributeUI"]
+layout_mode = 2
+text = "[TAB] Toggle Debug HUD"
+
+[node name="GameOver" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/GameOver"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/GameOver/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="TryAgainButton" type="Button" parent="UI/GameOver/VBoxContainer"]
+custom_minimum_size = Vector2(300, 120)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 8
-text = "F to damage
-G to fatigue
-H to heal
-P to purge curse
-B to apply health buff"
-script = ExtResource("8_5i0e1")
-target = NodePath("../../../World/Entities/Player/AbiluteComponent")
-damage_effect = ExtResource("9_xcr8v")
-stamina_effect = ExtResource("10_0b6rj")
-heal_effect = ExtResource("11_vdwnl")
-purge_effect = ExtResource("12_dqj5b")
-buff_effect = ExtResource("6_fs56a")
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 48
+text = "TRY AGAIN"
 
-[connection signal="ability_system_changed" from="UI/DebugUI/AbiluteDebugHUD" to="UI/DebugUI/DebugInputs" method="_on_abilute_debug_hud_ability_system_changed"]
+[connection signal="body_entered" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_entered"]
+[connection signal="body_exited" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_exited"]
+[connection signal="died" from="World/Entities/Player" to="." method="_on_player_died"]
+[connection signal="health_max_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/HealthBar" method="_on_player_attribute_max_updated"]
+[connection signal="health_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/HealthBar" method="_on_player_attribute_updated"]
+[connection signal="stamina_max_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/StaminaBar" method="_on_player_attribute_max_updated"]
+[connection signal="stamina_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/StaminaBar" method="_on_player_attribute_updated"]
+[connection signal="pressed" from="UI/GameOver/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]

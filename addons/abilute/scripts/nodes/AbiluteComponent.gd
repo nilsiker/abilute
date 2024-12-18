@@ -31,19 +31,17 @@ func _init_attributes():
 	var created = []
 	for attribute in attributes:
 		var node: Attribute = Attribute.new(attribute)
-		node.value_changed.emit(_on_attribute_value_changed)
-		node.base_value_changed.emit(_on_attribute_value_changed)
+		node.value_changed.connect(_on_attribute_value_changed)
+		node.base_value_changed.connect(_on_attribute_base_value_changed)
 		add_child(node)
 		created.push_back(node)
 	for node in created: node.init()
 	
 	
 func _on_attribute_base_value_changed(data: Attribute.ChangeData):
-	print("base ", data)
 	attribute_base_value_changed.emit(data)
 
 func _on_attribute_value_changed(data: Attribute.ChangeData):
-	print("value ", data)
 	attribute_value_changed.emit(data)
 #endregion
 
@@ -60,6 +58,12 @@ func add_effect(effect: BaseEffect):
 	node.trigger_requested.connect(_on_effect_trigger_requested)
 	node.removal_requested.connect(_on_effect_removal_requested)
 	add_child(node)
+
+func remove_effect(effect: BaseEffect):
+	var existing_effect = effects.filter(func(e): return e.data == effect).pop_back()
+	if existing_effect:
+		_remove_effect(existing_effect)
+
 
 func can_afford_cost(effect: BaseEffect) -> bool:
 	return effect.modifiers.all(func(m: ModifierData):

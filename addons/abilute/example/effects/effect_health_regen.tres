@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="InfiniteEffect" load_steps=5 format=3 uid="uid://51w2s4mwhc11"]
+
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_h8ig4"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/ModifierData.gd" id="2_w5eoq"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/InfiniteEffect.gd" id="3_5orpo"]
+
+[sub_resource type="Resource" id="Resource_r05wy"]
+script = ExtResource("2_w5eoq")
+operation = 1
+magnitude = 2.0
+attribute = &"Health"
+
+[resource]
+script = ExtResource("3_5orpo")
+period = 0.2
+modifiers = Array[ExtResource("2_w5eoq")]([SubResource("Resource_r05wy")])
+trigger_blocked_by = Array[ExtResource("1_h8ig4")]([])
+application_blocked_by = Array[ExtResource("1_h8ig4")]([])
+removes = Array[ExtResource("1_h8ig4")]([])
+success_effects = Array[ExtResource("1_h8ig4")]([])
+failure_effects = Array[ExtResource("1_h8ig4")]([])

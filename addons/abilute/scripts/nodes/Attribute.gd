@@ -40,10 +40,10 @@ func add_base_modifier(modifier: Modifier):
 		_data.base_value = max(_data.base_value, 0)
 
 	var base_data = Attribute.ChangeData.new(_data, old_base_value, base_value)
-	base_value_changed.emit(base_data)
+	if old_base_value != base_value: base_value_changed.emit(base_data)
 
 	var data = Attribute.ChangeData.new(_data, old_value, value)
-	value_changed.emit(data)
+	if old_value != value: value_changed.emit(data)
 	modifier.queue_free()
 
 
@@ -51,7 +51,7 @@ func add_modifier(modifier: Modifier):
 	var old_value = value
 	add_child(modifier)
 	var data = Attribute.ChangeData.new(_data, old_value, value)
-	value_changed.emit(data)
+	if value != old_value: value_changed.emit(data)
 	modifier.tree_exited.connect(_on_modifier_tree_exited)
 #endregion
 

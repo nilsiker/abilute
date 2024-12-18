@@ -14,5 +14,10 @@ func _init(data: ModifierData = null, destroy_signal: Signal = Signal()) -> void
     
 func modify(value: float) -> float:
     match _data.operation:
-        _: # Add
+        ModifierData.Operation.Add:
             return value + _data.magnitude
+        ModifierData.Operation.Set:
+            return _data.magnitude
+        _:
+            push_error("modifier operation not yet implemented")
+            return value
