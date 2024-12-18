@@ -10,7 +10,7 @@ var direction: Vector2 = Vector2.RIGHT
 func _ready() -> void:
 	super._ready()
 	_body = _owner.get_parent() as CharacterBody2D
-
+	
 func try_activate() -> bool:
 	if not can_activate(): return false
 	

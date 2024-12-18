@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://uujvk48k4pxt"]
+[gd_scene load_steps=22 format=3 uid="uid://uujvk48k4pxt"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/scenes/player/Player.gd" id="1_47y8c"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="2_xgiem"]
@@ -75,6 +75,8 @@ failure_effects = Array[ExtResource("5_oggqq")]([])
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
 size = Vector2(64, 64)
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_10wyd"]
+
 [node name="ExamplePlayer" type="CharacterBody2D" node_paths=PackedStringArray("abilute")]
 position = Vector2(51, 485)
 script = ExtResource("1_47y8c")
@@ -95,3 +97,6 @@ shape = SubResource("RectangleShape2D_vrlpa")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("10_k83pd")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_10wyd")

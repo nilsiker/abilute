@@ -11,7 +11,7 @@
 [ext_resource type="Resource" uid="uid://c0q5ohkpdx8hi" path="res://addons/abilute/example/effects/effect_poison.tres" id="5_eieqs"]
 [ext_resource type="PackedScene" uid="uid://2jevjsjxtrnt" path="res://addons/abilute/example/scenes/abilities/fireball_pickup.tscn" id="6_4ycrs"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="7_5alnm"]
-[ext_resource type="Script" path="res://addons/abilute/example/scenes/abilities/FireballPickup.gd" id="7_bipj8"]
+[ext_resource type="Script" path="res://addons/abilute/example/scenes/abilities/AbilityPickup.gd" id="7_bipj8"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_panel.tscn" id="7_gm2n2"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/AttributeBar.gd" id="7_nhkhw"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="8_cw28s"]
