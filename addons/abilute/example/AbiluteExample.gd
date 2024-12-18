@@ -16,4 +16,3 @@ func _on_player_died():
 func _on_try_again_button_pressed() -> void:
 	get_tree().reload_current_scene()
 	print("=== RESTARTED ===")
-

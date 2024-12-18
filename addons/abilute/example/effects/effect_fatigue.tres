@@ -7,8 +7,8 @@
 [sub_resource type="Resource" id="Resource_kbcxn"]
 script = ExtResource("1_rdwkb")
 operation = 1
-magnitude = -10.0
 attribute = &"Stamina"
+magnitude = -10.0
 
 [resource]
 script = ExtResource("2_pip17")

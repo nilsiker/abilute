@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="InfiniteEffect" load_steps=5 format=3 uid="uid://dr3yalfk03x00"]
+[gd_resource type="Resource" script_class="InfiniteEffect" load_steps=5 format=3 uid="uid://c0q5ohkpdx8hi"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_jvdoi"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/ModifierData.gd" id="2_mqc2v"]
@@ -7,8 +7,8 @@
 [sub_resource type="Resource" id="Resource_b73aw"]
 script = ExtResource("2_mqc2v")
 operation = 1
-magnitude = -3.0
 attribute = &"Health"
+magnitude = -3.0
 
 [resource]
 script = ExtResource("3_6wbtv")
