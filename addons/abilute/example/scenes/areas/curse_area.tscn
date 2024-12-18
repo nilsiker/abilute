@@ -1,0 +1,56 @@
+[gd_scene load_steps=8 format=3 uid="uid://bbo6e5hcbu0nb"]
+
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/EffectArea.gd" id="1_vhj1b"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="2_3ssca"]
+[ext_resource type="Resource" uid="uid://c0q5ohkpdx8hi" path="res://addons/abilute/example/effects/effect_poison.tres" id="3_tqla5"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/AreaLabel.gd" id="4_q1fra"]
+
+[sub_resource type="Gradient" id="Gradient_aqe85"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Gradient" id="Gradient_f4ni4"]
+colors = PackedColorArray(0, 0, 0, 1, 0.441393, 0.00252821, 0.856902, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f1ijr"]
+size = Vector2(67, 57)
+
+[node name="CurseArea" type="Area2D"]
+position = Vector2(277, 529)
+script = ExtResource("1_vhj1b")
+add_on_enter = Array[ExtResource("2_3ssca")]([ExtResource("3_tqla5")])
+remove_on_exit = Array[ExtResource("2_3ssca")]([ExtResource("3_tqla5")])
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(2, -21)
+amount = 64
+lifetime = 3.0
+emission_shape = 3
+emission_rect_extents = Vector2(40, 40)
+direction = Vector2(0, -1)
+spread = 10.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+scale_amount_min = 4.0
+scale_amount_max = 6.0
+color_ramp = SubResource("Gradient_aqe85")
+color_initial_ramp = SubResource("Gradient_f4ni4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.5, -18.5)
+shape = SubResource("RectangleShape2D_f1ijr")
+
+[node name="Label" type="Label" parent="."]
+z_index = 2
+offset_left = -68.0
+offset_top = -187.0
+offset_right = 243.0
+offset_bottom = -86.0
+text = "This area inflicts a curse 
+(an infinite effect)
+that consumes you slowly 
+(periodically modifies health base value)"
+script = ExtResource("4_q1fra")
+
+[connection signal="body_entered" from="." to="Label" method="_on_area_body_entered"]
+[connection signal="body_exited" from="." to="Label" method="_on_area_body_exited"]

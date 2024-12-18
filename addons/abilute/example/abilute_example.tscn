@@ -1,19 +1,21 @@
-[gd_scene load_steps=27 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=28 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/AbiluteExample.gd" id="1_8umbl"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/PlayerChannel.gd" id="2_es6kc"]
 [ext_resource type="PackedScene" uid="uid://uujvk48k4pxt" path="res://addons/abilute/example/scenes/player/example_player.tscn" id="2_law54"]
 [ext_resource type="PackedScene" uid="uid://bosfar2dkeg3v" path="res://addons/abilute/example/scenes/static/obstacle.tscn" id="3_4ly8q"]
-[ext_resource type="Script" path="res://addons/abilute/example/scripts/AreaLabel.gd" id="3_c8skw"]
 [ext_resource type="PackedScene" uid="uid://dc0pi13x341dx" path="res://addons/abilute/example/scenes/areas/swamp_area.tscn" id="3_tcxu7"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/EffectArea.gd" id="4_lotl7"]
 [ext_resource type="PackedScene" uid="uid://jbtmx6wc8kci" path="res://addons/abilute/example/scenes/destructible/destructible.tscn" id="4_q46vs"]
+[ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/example/effects/effect_curse.tres" id="5_c0kho"]
 [ext_resource type="Resource" uid="uid://c0q5ohkpdx8hi" path="res://addons/abilute/example/effects/effect_poison.tres" id="5_eieqs"]
 [ext_resource type="PackedScene" uid="uid://2jevjsjxtrnt" path="res://addons/abilute/example/scenes/abilities/fireball_pickup.tscn" id="6_4ycrs"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="7_5alnm"]
+[ext_resource type="Resource" uid="uid://cg212drubgl8j" path="res://addons/abilute/example/abilities/FireballAbilityData.tres" id="7_6ny8b"]
 [ext_resource type="PackedScene" uid="uid://dfnqdcdaw88r8" path="res://addons/abilute/scenes/abilute_debug_hud/abilute_debug_panel.tscn" id="7_gm2n2"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/AttributeBar.gd" id="7_nhkhw"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="8_cw28s"]
+[ext_resource type="PackedScene" uid="uid://bbo6e5hcbu0nb" path="res://addons/abilute/example/scenes/areas/curse_area.tscn" id="9_5if6k"]
 [ext_resource type="PackedScene" uid="uid://deocpaw372k6i" path="res://addons/abilute/example/scenes/areas/health_buff_area.tscn" id="9_56yvo"]
 [ext_resource type="Script" path="res://addons/abilute/example/UI.gd" id="9_i0lmx"]
 [ext_resource type="Resource" uid="uid://f2ndc41xfuhy" path="res://addons/abilute/example/effects/effect_health_regen.tres" id="10_wao48"]
@@ -26,8 +28,6 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_w2eeq"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_e0gpp"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_8ypx7"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_arqwq"]
 bg_color = Color(0.677909, 0, 0.0541277, 1)
@@ -71,28 +71,18 @@ shape = SubResource("WorldBoundaryShape2D_e0gpp")
 
 [node name="Obstacle" parent="World" instance=ExtResource("3_4ly8q")]
 
-[node name="StartArea" type="Area2D" parent="World"]
-position = Vector2(71, 487)
-
-[node name="StartLabel" type="Label" parent="World/StartArea"]
-offset_left = -66.0
-offset_top = -87.0
-offset_right = 102.0
-offset_bottom = -38.0
-text = "An ancient curse
-slowly consumes you!"
-horizontal_alignment = 1
-script = ExtResource("3_c8skw")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/StartArea"]
-shape = SubResource("CircleShape2D_8ypx7")
-
 [node name="Entities" type="Node" parent="World"]
 
 [node name="FireballPickup" parent="World/Entities" instance=ExtResource("6_4ycrs")]
+_ability_data = ExtResource("7_6ny8b")
 
 [node name="Player" parent="World/Entities" instance=ExtResource("2_law54")]
 position = Vector2(89, 487)
+
+[node name="CurseArea" parent="World/Entities" instance=ExtResource("9_5if6k")]
+position = Vector2(89, 531)
+add_on_enter = Array[ExtResource("8_cw28s")]([ExtResource("5_c0kho")])
+remove_on_exit = Array[ExtResource("8_cw28s")]([])
 
 [node name="SwampArea" parent="World/Entities" instance=ExtResource("3_tcxu7")]
 script = ExtResource("4_lotl7")
@@ -231,6 +221,4 @@ text = "TRY AGAIN"
 
 [connection signal="died" from="PlayerChannel" to="." method="_on_player_died"]
 [connection signal="player_ready" from="PlayerChannel" to="UI/Margins/AttributeUI" method="_on_player_ready"]
-[connection signal="body_entered" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_entered"]
-[connection signal="body_exited" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_exited"]
 [connection signal="pressed" from="UI/GameOver/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]

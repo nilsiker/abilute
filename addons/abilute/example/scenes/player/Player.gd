@@ -37,7 +37,8 @@ func _on_attribute_value_changed(data: Attribute.ChangeData):
 		"Health":
 			health_updated.emit(data.new_value)
 			if data.new_value <= 0:
-				get_tree().current_scene.get_node("PlayerChannel").die()
+				if not get_tree(): return
+				get_tree().current_scene.get_node("PlayerChannel").die()	#
 		"Stamina":
 			stamina_updated.emit(data.new_value)
 		"StaminaMax":

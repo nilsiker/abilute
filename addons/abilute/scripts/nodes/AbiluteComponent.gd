@@ -59,6 +59,7 @@ func add_effect(effect: BaseEffect):
 		if existing_effect.data is DurationEffect and existing_effect.data.allow_reapply: # FIXME this quick and dirty
 			existing_effect.reset_timer()
 			return
+		elif existing_effect.data is InfiniteEffect: return # FIXME don't stack infinites for now
 	var node = Effect.new(effect)
 	node.application_requested.connect(_on_effect_application_requested)
 	node.trigger_requested.connect(_on_effect_trigger_requested)
@@ -121,9 +122,10 @@ func _on_effect_removal_requested(effect: Effect):
 #endregion
 
 #region Abilities
-func grant_ability(ability: Ability):
-	add_child(ability)
-	ability_granted.emit(ability)
+func grant_ability(ability: AbilityData):
+	var node = ability.create()
+	add_child(node)
+	ability_granted.emit(node)
 	
 func revoke_ability(ability:Ability):
 	var existing = find_children("*", "Ability", true, false).map(func(a): return a.get_script() == ability.get_script()).pop_back()
