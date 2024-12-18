@@ -44,26 +44,26 @@ allow_negative = false
 [sub_resource type="Resource" id="Resource_p0u2t"]
 script = ExtResource("6_wksoc")
 operation = 3
-magnitude = 100.0
 attribute = &"Health"
+magnitude = 100.0
 
 [sub_resource type="Resource" id="Resource_6w43f"]
 script = ExtResource("6_wksoc")
 operation = 3
-magnitude = 100.0
 attribute = &"HealthMax"
+magnitude = 100.0
 
 [sub_resource type="Resource" id="Resource_bbjo7"]
 script = ExtResource("6_wksoc")
 operation = 3
-magnitude = 50.0
 attribute = &"Stamina"
+magnitude = 50.0
 
 [sub_resource type="Resource" id="Resource_bbfjs"]
 script = ExtResource("6_wksoc")
 operation = 3
-magnitude = 50.0
 attribute = &"StaminaMax"
+magnitude = 50.0
 
 [sub_resource type="Resource" id="Resource_xu1pv"]
 script = ExtResource("5_oggqq")

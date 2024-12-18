@@ -1,14 +1,20 @@
-[gd_resource type="Resource" script_class="DurationEffect" load_steps=5 format=3 uid="uid://da0y68ciclnhv"]
+[gd_resource type="Resource" script_class="DurationEffect" load_steps=6 format=3 uid="uid://da0y68ciclnhv"]
 
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="1_3jlby"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/ModifierData.gd" id="2_0e4xh"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/DurationEffect.gd" id="3_r36f6"]
 
+[sub_resource type="Curve" id="Curve_0quru"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0]
+point_count = 1
+metadata/_snap_enabled = true
+
 [sub_resource type="Resource" id="Resource_y0bj4"]
 script = ExtResource("2_0e4xh")
 operation = 1
-magnitude = 40.0
 attribute = &"HealthMax"
+magnitude = 2.0
+curve = SubResource("Curve_0quru")
 
 [resource]
 script = ExtResource("3_r36f6")

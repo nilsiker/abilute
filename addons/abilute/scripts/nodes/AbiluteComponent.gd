@@ -2,6 +2,10 @@ class_name AbiluteComponent extends Node
 
 signal attribute_base_value_changed(data: Attribute.ChangeData)
 signal attribute_value_changed(data: Attribute.ChangeData)
+signal effect_added(data: BaseEffect)
+signal effect_removed(data: BaseEffect)
+signal ability_granted(ability: Ability)
+signal ability_revoked(ability: Ability)
 
 @export var attributes: Array[AttributeData]
 

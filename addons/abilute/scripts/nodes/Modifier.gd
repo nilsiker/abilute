@@ -13,11 +13,12 @@ func _init(data: ModifierData = null, destroy_signal: Signal = Signal()) -> void
     if destroy_signal: destroy_signal.connect(queue_free)
     
 func modify(value: float) -> float:
+    var magnitude = _data.magnitude if not _data.curve else _data.curve.sample(_data.magnitude)
     match _data.operation:
         ModifierData.Operation.Add:
-            return value + _data.magnitude
+            return value + magnitude
         ModifierData.Operation.Set:
-            return _data.magnitude
+            return magnitude
         _:
             push_error("modifier operation not yet implemented")
             return value
