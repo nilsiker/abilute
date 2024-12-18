@@ -1,78 +1,42 @@
-[gd_scene load_steps=23 format=3 uid="uid://uujvk48k4pxt"]
+[gd_scene load_steps=15 format=3 uid="uid://uujvk48k4pxt"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/scenes/player/Player.gd" id="1_47y8c"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="2_xgiem"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/AttributeData.gd" id="3_yyopr"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/nodes/Effect.gd" id="4_yweb6"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="5_oggqq"]
 [ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/example/effects/effect_stamina_regen.tres" id="5_s2no1"]
 [ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/example/effects/effect_curse.tres" id="6_ohf17"]
-[ext_resource type="Script" path="res://addons/abilute/scripts/resources/ModifierData.gd" id="6_wksoc"]
-[ext_resource type="Resource" uid="uid://da0y68ciclnhv" path="res://addons/abilute/example/effects/effect_health_buff.tres" id="7_6w2ha"]
 [ext_resource type="Script" path="res://addons/abilute/example/abilities/JumpAbility.gd" id="8_wimv0"]
 [ext_resource type="Resource" uid="uid://jm1krkshnxrg" path="res://addons/abilute/example/effects/effect_fatigue.tres" id="9_b27ed"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="10_k83pd"]
 
-[sub_resource type="Resource" id="Resource_jyio6"]
+[sub_resource type="Resource" id="Resource_rqaui"]
 script = ExtResource("3_yyopr")
 attribute = &"Health"
 max_attribute = &"HealthMax"
 base_value = 100.0
 allow_negative = false
 
-[sub_resource type="Resource" id="Resource_7f854"]
-script = ExtResource("3_yyopr")
-attribute = &"HealthMax"
-max_attribute = &"None"
-base_value = 100.0
-allow_negative = false
-
-[sub_resource type="Resource" id="Resource_4uo2b"]
+[sub_resource type="Resource" id="Resource_33ho4"]
 script = ExtResource("3_yyopr")
 attribute = &"Stamina"
 max_attribute = &"StaminaMax"
 base_value = 100.0
 allow_negative = false
 
-[sub_resource type="Resource" id="Resource_8w1nf"]
+[sub_resource type="Resource" id="Resource_3ka5i"]
+script = ExtResource("3_yyopr")
+attribute = &"HealthMax"
+max_attribute = &"None"
+base_value = 100.0
+allow_negative = false
+
+[sub_resource type="Resource" id="Resource_pq5e6"]
 script = ExtResource("3_yyopr")
 attribute = &"StaminaMax"
 max_attribute = &"None"
 base_value = 100.0
 allow_negative = false
-
-[sub_resource type="Resource" id="Resource_p0u2t"]
-script = ExtResource("6_wksoc")
-operation = 3
-attribute = &"Health"
-magnitude = 40.0
-
-[sub_resource type="Resource" id="Resource_6w43f"]
-script = ExtResource("6_wksoc")
-operation = 3
-attribute = &"HealthMax"
-magnitude = 40.0
-
-[sub_resource type="Resource" id="Resource_bbjo7"]
-script = ExtResource("6_wksoc")
-operation = 3
-attribute = &"Stamina"
-magnitude = 30.0
-
-[sub_resource type="Resource" id="Resource_bbfjs"]
-script = ExtResource("6_wksoc")
-operation = 3
-attribute = &"StaminaMax"
-magnitude = 30.0
-
-[sub_resource type="Resource" id="Resource_xu1pv"]
-script = ExtResource("5_oggqq")
-modifiers = Array[ExtResource("6_wksoc")]([SubResource("Resource_p0u2t"), SubResource("Resource_6w43f"), SubResource("Resource_bbjo7"), SubResource("Resource_bbfjs")])
-trigger_blocked_by = Array[ExtResource("5_oggqq")]([])
-application_blocked_by = Array[ExtResource("5_oggqq")]([])
-removes = Array[ExtResource("5_oggqq")]([])
-success_effects = Array[ExtResource("5_oggqq")]([])
-failure_effects = Array[ExtResource("5_oggqq")]([])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
 size = Vector2(64, 64)
@@ -84,23 +48,8 @@ abilute = NodePath("AbiluteComponent")
 
 [node name="AbiluteComponent" type="Node" parent="."]
 script = ExtResource("2_xgiem")
-attributes = Array[ExtResource("3_yyopr")]([SubResource("Resource_jyio6"), SubResource("Resource_7f854"), SubResource("Resource_4uo2b"), SubResource("Resource_8w1nf")])
-
-[node name="AttributeIniter" type="Node" parent="AbiluteComponent"]
-script = ExtResource("4_yweb6")
-data = SubResource("Resource_xu1pv")
-
-[node name="InfiniteStaminaRegen" type="Node" parent="AbiluteComponent"]
-script = ExtResource("4_yweb6")
-data = ExtResource("5_s2no1")
-
-[node name="Curse" type="Node" parent="AbiluteComponent"]
-script = ExtResource("4_yweb6")
-data = ExtResource("6_ohf17")
-
-[node name="HealthBuff" type="Node" parent="AbiluteComponent"]
-script = ExtResource("4_yweb6")
-data = ExtResource("7_6w2ha")
+_attributes = Array[ExtResource("3_yyopr")]([SubResource("Resource_rqaui"), SubResource("Resource_33ho4"), SubResource("Resource_3ka5i"), SubResource("Resource_pq5e6")])
+_starting_effects = Array[ExtResource("5_oggqq")]([ExtResource("6_ohf17"), ExtResource("5_s2no1")])
 
 [node name="JumpAbility" type="Node" parent="AbiluteComponent"]
 script = ExtResource("8_wimv0")

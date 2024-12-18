@@ -7,7 +7,8 @@ signal effect_removed(data: BaseEffect)
 signal ability_granted(ability: Ability)
 signal ability_revoked(ability: Ability)
 
-@export var attributes: Array[AttributeData]
+@export var _attributes: Array[AttributeData]
+@export var _starting_effects: Array[BaseEffect]
 
 var effects: Array[Effect]:
 	get:
@@ -33,7 +34,7 @@ func get_attribute_value(attribute: StringName):
 
 func _init_attributes():
 	var created = []
-	for attribute in attributes:
+	for attribute in _attributes:
 		var node: Attribute = Attribute.new(attribute)
 		node.value_changed.connect(_on_attribute_value_changed)
 		node.base_value_changed.connect(_on_attribute_base_value_changed)
@@ -54,8 +55,7 @@ func add_effect(effect: BaseEffect):
 	var existing_effect = effects.filter(func(e): return e.data == effect).pop_back()
 	if existing_effect: # FIXME this is quick and dirty
 		if existing_effect.data is DurationEffect and existing_effect.data.allow_reapply: # FIXME this quick and dirty
-			existing_effect.queue_free()
-		else:
+			existing_effect.reset_timer()
 			return
 	var node = Effect.new(effect)
 	node.application_requested.connect(_on_effect_application_requested)
@@ -76,11 +76,8 @@ func can_afford_cost(effect: BaseEffect) -> bool:
 	)
 
 func _register_start_effects():
-	for effect in effects:
-		effect.application_requested.connect(_on_effect_application_requested)
-		effect.trigger_requested.connect(_on_effect_trigger_requested)
-		effect.removal_requested.connect(_on_effect_removal_requested)
-		_apply_effect(effect)
+	for effect in _starting_effects:
+		add_effect(effect)
 
 
 func _apply_effect(effect: Effect):

@@ -24,6 +24,10 @@ func time_left() -> float:
 		return $DurationTimer.time_left
 	elif data is InfiniteEffect: return INF
 	else: return 0.0
+
+# TODO make this more typesafe?
+func reset_timer():
+	$DurationTimer.start()
 	
 
 #region Effect Triggers
