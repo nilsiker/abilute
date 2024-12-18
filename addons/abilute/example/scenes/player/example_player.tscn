@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://uujvk48k4pxt"]
+[gd_scene load_steps=21 format=3 uid="uid://uujvk48k4pxt"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/scenes/player/Player.gd" id="1_47y8c"]
 [ext_resource type="Script" path="res://addons/abilute/scripts/nodes/AbiluteComponent.gd" id="2_xgiem"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://addons/abilute/scripts/resources/effect/BaseEffect.gd" id="5_oggqq"]
 [ext_resource type="Resource" uid="uid://6cc0m830hwva" path="res://addons/abilute/example/effects/effect_stamina_regen.tres" id="5_s2no1"]
 [ext_resource type="Resource" uid="uid://dgldaxj8wqcwg" path="res://addons/abilute/example/effects/effect_curse.tres" id="6_ohf17"]
-[ext_resource type="Script" path="res://addons/abilute/example/abilities/JumpAbility.gd" id="8_wimv0"]
+[ext_resource type="Script" path="res://addons/abilute/scripts/resources/AbilityData.gd" id="8_0wpwi"]
 [ext_resource type="Resource" uid="uid://dtjne5s3ixona" path="res://addons/abilute/example/abilities/JumpAbilityData.tres" id="9_ds1af"]
 [ext_resource type="Texture2D" uid="uid://cngd2itau5yh7" path="res://icon.svg" id="10_k83pd"]
 
@@ -75,8 +75,6 @@ failure_effects = Array[ExtResource("5_oggqq")]([])
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vrlpa"]
 size = Vector2(64, 64)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_10wyd"]
-
 [node name="ExamplePlayer" type="CharacterBody2D" node_paths=PackedStringArray("abilute")]
 position = Vector2(51, 485)
 script = ExtResource("1_47y8c")
@@ -86,10 +84,7 @@ abilute = NodePath("AbiluteComponent")
 script = ExtResource("2_xgiem")
 _attributes = Array[ExtResource("3_yyopr")]([SubResource("Resource_rqaui"), SubResource("Resource_33ho4"), SubResource("Resource_3ka5i"), SubResource("Resource_pq5e6")])
 _starting_effects = Array[ExtResource("5_oggqq")]([SubResource("Resource_gb13a"), ExtResource("6_ohf17"), ExtResource("5_s2no1")])
-
-[node name="JumpAbility" type="Node" parent="AbiluteComponent"]
-script = ExtResource("8_wimv0")
-data = ExtResource("9_ds1af")
+_starting_abilities = Array[ExtResource("8_0wpwi")]([ExtResource("9_ds1af")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_vrlpa")
@@ -97,6 +92,3 @@ shape = SubResource("RectangleShape2D_vrlpa")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("10_k83pd")
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_10wyd")

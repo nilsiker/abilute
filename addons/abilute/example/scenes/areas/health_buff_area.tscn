@@ -43,7 +43,7 @@ offset_top = -174.0
 offset_right = 175.0
 offset_bottom = -125.0
 text = "Effects can be temporary
-like this health buff"
+like this max health buff"
 horizontal_alignment = 1
 script = ExtResource("4_amvh8")
 

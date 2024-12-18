@@ -9,6 +9,7 @@ signal ability_revoked(ability: Ability)
 
 @export var _attributes: Array[AttributeData]
 @export var _starting_effects: Array[BaseEffect]
+@export var _starting_abilities: Array[AbilityData]
 
 var effects: Array[Effect]:
 	get:
@@ -22,6 +23,7 @@ func _ready() -> void:
 	add_to_group(Abilute.GROUP_NAME)
 	_init_attributes()
 	_register_start_effects()
+	_register_start_abilities()
 
 #region Attributes
 func get_attribute_base(attribute: StringName):
@@ -129,4 +131,7 @@ func revoke_ability(ability:Ability):
 		existing.queue_free()
 		# TODO revoke ability, needs a spec of sorts?
 	
-#endregoin
+func _register_start_abilities():
+	for ability in _starting_abilities:
+		add_child(ability.create())
+#endregion

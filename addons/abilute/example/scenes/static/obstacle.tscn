@@ -32,8 +32,8 @@ offset_left = -176.0
 offset_top = -106.0
 offset_right = 168.0
 offset_bottom = -57.0
-text = "Actions (such as jumping)
- can cost resources"
+text = "Abilities can cost resources
+like jumping"
 horizontal_alignment = 1
 script = ExtResource("2_67yrj")
 

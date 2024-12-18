@@ -39,7 +39,9 @@ offset_left = -97.0
 offset_top = -116.0
 offset_right = 104.0
 offset_bottom = -93.0
-text = "Areas can damage you"
+text = "Effects can damage you
+like this poison area"
+horizontal_alignment = 1
 script = ExtResource("1_0511t")
 
 [connection signal="body_entered" from="." to="Label" method="_on_area_body_entered"]
