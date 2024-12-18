@@ -1,11 +1,9 @@
 extends ProgressBar
 
+func update_value(new_value: float):
+	self.value = new_value
+	$Text/Value.text = str(new_value)
 
-func _on_player_attribute_updated(value:float) -> void:
-	self.value = value
-	$Text/Value.text = str(value)
-
-
-func _on_player_attribute_max_updated(value:float) -> void:
-	max_value = value
-	$Text/MaxValue.text = str(value)
+func update_max(new_max: float):
+	max_value = new_max
+	$Text/MaxValue.text = str(new_max)

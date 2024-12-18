@@ -12,7 +12,7 @@ var effect: Effect:
 #region Overrides
 func _process(delta: float) -> void:
 	if _effect:
-		_duration.text = "(%1.1f)" % _effect.time_left()
+		_duration.text = "(%1.2f)" % _effect.time_left()
 #endregion
 
 #region Private

@@ -8,8 +8,8 @@
 [sub_resource type="Resource" id="Resource_nveew"]
 script = ExtResource("2_lm6le")
 operation = 1
-magnitude = 1.0
 attribute = &"Stamina"
+magnitude = 1.0
 
 [resource]
 script = ExtResource("3_smkc7")

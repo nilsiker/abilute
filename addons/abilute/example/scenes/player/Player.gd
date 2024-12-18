@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-signal died
 signal health_updated(value: float)
 signal health_max_updated(value: float)
 signal stamina_updated(value: float)
@@ -10,6 +9,12 @@ const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
 @export var abilute: AbiluteComponent
+
+
+func _ready() -> void:
+	get_tree().current_scene.get_node("PlayerChannel").broadcast_player_ready(self)
+	abilute.attribute_value_changed.connect(_on_attribute_value_changed)
+
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -32,11 +37,11 @@ func _on_attribute_value_changed(data: Attribute.ChangeData):
 		"Health":
 			health_updated.emit(data.new_value)
 			if data.new_value <= 0:
-				died.emit()
+				get_tree().current_scene.get_node("PlayerChannel").die()
 		"Stamina":
 			stamina_updated.emit(data.new_value)
 		"StaminaMax":
 			stamina_max_updated.emit(data.new_value)
 		"HealthMax":
 			health_max_updated.emit(data.new_value)
-		_: push_error("attribute listener not implemented")
+		_: push_warning("attribute listener not implemented")

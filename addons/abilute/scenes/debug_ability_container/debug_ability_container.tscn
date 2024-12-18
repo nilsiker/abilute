@@ -2,14 +2,18 @@
 
 [ext_resource type="Script" path="res://addons/abilute/scenes/debug_ability_container/DebugAbilityContainer.gd" id="1_x4uub"]
 
-[node name="AbilityContainer" type="HBoxContainer"]
+[node name="AbilityContainer" type="HBoxContainer" node_paths=PackedStringArray("_name", "_action")]
 theme_override_constants/separation = 10
 script = ExtResource("1_x4uub")
+_name = NodePath("AbilityName")
+_action = NodePath("AbilityAction")
 
 [node name="AbilityName" type="Label" parent="."]
 layout_mode = 2
 text = "Ability X"
 
-[node name="AbilityCooldown" type="Label" parent="."]
+[node name="AbilityAction" type="Label" parent="."]
+custom_minimum_size = Vector2(10, 4)
 layout_mode = 2
 text = "(10.2s)"
+autowrap_mode = 2

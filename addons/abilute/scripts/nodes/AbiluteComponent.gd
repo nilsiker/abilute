@@ -84,7 +84,6 @@ func _register_start_effects():
 
 
 func _apply_effect(effect: Effect):
-	print("todo apply effect logic")
 	if effect.data is BaseEffect:
 		_trigger_effect(effect)
 

@@ -1,6 +1,5 @@
 extends Ability
 
-@export var _action: StringName
 @export var _jump_strength: float = 400
 
 var _body: CharacterBody2D

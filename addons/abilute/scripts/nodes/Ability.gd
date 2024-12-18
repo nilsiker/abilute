@@ -1,6 +1,10 @@
 class_name Ability extends Node
 
+@export var _action: StringName
 @export var cost_effect: BaseEffect
+
+var action: StringName:
+	get: return _action
 
 var _owner: AbiluteComponent
 

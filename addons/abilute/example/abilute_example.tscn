@@ -1,6 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://c75i7pwddvu28"]
+[gd_scene load_steps=26 format=3 uid="uid://c75i7pwddvu28"]
 
 [ext_resource type="Script" path="res://addons/abilute/example/AbiluteExample.gd" id="1_8umbl"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/PlayerChannel.gd" id="2_es6kc"]
 [ext_resource type="PackedScene" uid="uid://uujvk48k4pxt" path="res://addons/abilute/example/scenes/player/example_player.tscn" id="2_law54"]
 [ext_resource type="PackedScene" uid="uid://bosfar2dkeg3v" path="res://addons/abilute/example/scenes/static/obstacle.tscn" id="3_4ly8q"]
 [ext_resource type="Script" path="res://addons/abilute/example/scripts/AreaLabel.gd" id="3_c8skw"]
@@ -17,6 +18,7 @@
 [ext_resource type="Resource" uid="uid://51w2s4mwhc11" path="res://addons/abilute/example/effects/effect_health_regen.tres" id="10_wao48"]
 [ext_resource type="PackedScene" uid="uid://14medwhkjlf4" path="res://addons/abilute/example/scenes/areas/purge_area.tscn" id="11_af4gq"]
 [ext_resource type="Resource" uid="uid://yrunrc8xkyfs" path="res://addons/abilute/example/effects/effect_purge.tres" id="12_dqj5b"]
+[ext_resource type="Script" path="res://addons/abilute/example/scripts/AttributeUI.gd" id="17_ojuk8"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_dceyj"]
 
@@ -34,6 +36,9 @@ bg_color = Color(0.337017, 0.578507, 0, 1)
 
 [node name="AbiluteExample" type="Node2D"]
 script = ExtResource("1_8umbl")
+
+[node name="PlayerChannel" type="Node" parent="."]
+script = ExtResource("2_es6kc")
 
 [node name="World" type="Node" parent="."]
 process_mode = 1
@@ -129,6 +134,7 @@ layout_mode = 2
 
 [node name="AttributeUI" type="VBoxContainer" parent="UI/Margins"]
 layout_mode = 2
+script = ExtResource("17_ojuk8")
 
 [node name="HealthBar" type="ProgressBar" parent="UI/Margins/AttributeUI"]
 custom_minimum_size = Vector2(400, 40)
@@ -220,11 +226,8 @@ size_flags_vertical = 4
 theme_override_font_sizes/font_size = 48
 text = "TRY AGAIN"
 
+[connection signal="died" from="PlayerChannel" to="." method="_on_player_died"]
+[connection signal="player_ready" from="PlayerChannel" to="UI/Margins/AttributeUI" method="_on_player_ready"]
 [connection signal="body_entered" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_entered"]
 [connection signal="body_exited" from="World/StartArea" to="World/StartArea/StartLabel" method="_on_area_body_exited"]
-[connection signal="died" from="World/Entities/Player" to="." method="_on_player_died"]
-[connection signal="health_max_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/HealthBar" method="_on_player_attribute_max_updated"]
-[connection signal="health_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/HealthBar" method="_on_player_attribute_updated"]
-[connection signal="stamina_max_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/StaminaBar" method="_on_player_attribute_max_updated"]
-[connection signal="stamina_updated" from="World/Entities/Player" to="UI/Margins/AttributeUI/StaminaBar" method="_on_player_attribute_updated"]
 [connection signal="pressed" from="UI/GameOver/VBoxContainer/TryAgainButton" to="." method="_on_try_again_button_pressed"]

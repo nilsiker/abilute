@@ -19,42 +19,53 @@ func _ready() -> void:
 #endregion
 
 #region Attributes
-func _refresh_attribute_containers():
+func _refresh_attributes() -> void:
 	_clear_attributes()
 	if not _active: return
 	for attribute in _active.find_children("*", "Attribute", true, false):
 		_add_attribute(attribute)
 
-func _add_attribute(attribute: Attribute):
+func _add_attribute(attribute: Attribute) -> void:
 	var node = DebugAttributeContainer.instantiate()
 	node.attribute = attribute
 	_attributes.add_child(node)
 
-func _clear_attributes():
+func _clear_attributes() -> void:
 	_attributes.get_children().map(func(c): c.queue_free())
 #endregion
 
 
 #region Effects
-func _refresh_effects_containers():
+func _refresh_effects() -> void:
 	_clear_effects()
 	if not _active: return
 	for effect in _active.find_children("*", "Effect", true, false):
 		_add_effect(effect)
 
-func _add_effect(effect: Effect):
+func _add_effect(effect: Effect) -> void:
 	var node = DebugEffectContainer.instantiate()
 	node.effect = effect
 	_effects.add_child(node)
 
-func _clear_effects():
+func _clear_effects() -> void:
 	_effects.get_children().map(func(c): c.queue_free())
 #endregion
 
 
 #region Abilities
-func _clear_abilities():
-	pass
+func _refresh_abilities() -> void:
+	_clear_abilities()
+	if not _active: return
+	for ability in _active.find_children("*", "Ability", true, false):
+		_add_ability(ability)
+
+func _add_ability(ability: Ability) -> void:
+	var node = DebugAbilityContainer.instantiate()
+	node.ability = ability
+	_abilities.add_child(node)
+	
+func _clear_abilities() -> void:
+	_abilities.get_children().map(func(c): c.queue_free())
 #endregion
 
 
@@ -78,11 +89,14 @@ func _update_selected_system():
 	_active.effect_added.connect(_on_effect_added)
 
 	_inspected_label.text = "[b]{1} ({0})[/b]".format([_active.name, _active.get_parent().name])
-	_refresh_attribute_containers()
-	_refresh_effects_containers()
+	_refresh_attributes()
+	_refresh_effects()
+	_refresh_abilities()
 
 
 #region Signal handlers
 func _on_effect_added(effect: Effect):
+	_add_effect(effect)
+func _on_ability_added(effect: Effect):
 	_add_effect(effect)
 #endregion

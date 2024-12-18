@@ -8,7 +8,7 @@
 script = ExtResource("2_0e4xh")
 operation = 1
 attribute = &"HealthMax"
-magnitude = 40.0
+magnitude = 90.0
 
 [resource]
 script = ExtResource("3_r36f6")
